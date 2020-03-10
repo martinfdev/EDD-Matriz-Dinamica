@@ -1,3 +1,7 @@
+/* 
+ * File:   File.cpp
+ * Author: pedro
+ */
 #include "File.h"
 #include <cstdlib>
 #include <cstdio>

@@ -1,5 +1,5 @@
 /* 
- * File:   LinkedDoubleList.h
+ * File:   Node.h
  * Author: pedro
  */
 #ifndef NODE_H
@@ -18,6 +18,7 @@ public:
     void setBehind(Node*);
     Node* getNext();
     Node* getBehind();
+    T getData();
     ~Node();
     private:
     T data;

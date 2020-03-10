@@ -1,3 +1,7 @@
+/* 
+ * File:   Init.cpp
+ * Author: pedro
+ */
 #include <iostream>
 #include "Init.h"
 

@@ -1,3 +1,7 @@
+/* 
+ * File:   main.h
+ * Author: pedro
+ */
 #include <stdlib.h>
 #include "Init.h"
 

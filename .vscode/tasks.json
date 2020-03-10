@@ -15,8 +15,8 @@
                 "Init.cpp",
                 "File.h",
                 "File.cpp",
-                "ListaDobleC.h",
-                "ListaDobleC.cpp",
+                "ListaDoble.h",
+                "ListaDoble.cpp",
                 
                 //librerias
                 "-l",

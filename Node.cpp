@@ -1,5 +1,5 @@
 /* 
- * File:   LinkedDoubleList.h
+ * File:   Node.cpp
  * Author: pedro
  */
 
@@ -37,4 +37,9 @@ Node<T>* Node<T>::getNext(){
 template<typename T>
 Node<T>* Node<T>::getBehind(){
     return behind;
+}
+
+template<typename T>
+T Node<T>::getData(){
+    return data;
 }
