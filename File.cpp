@@ -1,7 +1,10 @@
 #include "File.h"
 #include <cstdlib>
+#include <cstdio>
 #include <fstream>
 #include <iostream>
+#include <cstring>
+
 #include <jsoncpp/json/json.h>
 
 using std::ifstream;
@@ -16,7 +19,7 @@ File::File(/* args */)
 bool File::createOrWriteFile(string nameFile, string textoAescribir)
 {
     ofstream filOut;
-    filOut.open(nameFile, ios::out | ios::app);
+    filOut.open(nameFile, ios::out);
     if (filOut.fail())
     {
         std::cout << "Error al crear o modifiar el archivo\n";
@@ -59,23 +62,47 @@ void File::readJson(string json)
     Json::Value objJson;
     r.parse(json, objJson);
     // std::cout<<objJson;
-    const Json::Value& dimension = objJson["dimension"];
-    std::cout<<"Dimension\t"<<dimension<<"\n";
-    const Json::Value& casillas = objJson["casillas"];
-    std::cout<<"casillas"<<"\n";    
-    const Json::Value& dobles = casillas["dobles"];
-    std::cout<<"dobles"<<"\n";
+    const Json::Value &dimension = objJson["dimension"];
+    // std::cout<<"Dimension\t"<<dimension<<"\n";
+    const Json::Value &casillas = objJson["casillas"];
+    // std::cout<<"casillas"<<"\n";
+    const Json::Value &dobles = casillas["dobles"];
+    //std::cout<<"dobles"<<"\n";
     for (int i = 0; i < dobles.size(); i++)
     {
-        std::cout << "\nposcion x: " << dobles[i]["x"].asString()<<"\t";
-        std::cout << "\nposcion y: " << dobles[i]["y"].asString()<<"\n";
+        //   std::cout << "\nposcion x: " << dobles[i]["x"].asString()<<"\t";
+        //   std::cout << "\nposcion y: " << dobles[i]["y"].asString()<<"\n";
     }
-    const Json::Value& triples = casillas["triples"];
-    std::cout<<"triples"<<"\n";
+    const Json::Value &triples = casillas["triples"];
+    // std::cout<<"triples"<<"\n";
     for (int i = 0; i < triples.size(); i++)
     {
-        std::cout << "\nposcion x: " << triples[i]["x"].asString()<<"\t";
-        std::cout << "\nposcion y: " << triples[i]["y"].asString()<<"\n";
+        //  std::cout << "\nposcion x: " << triples[i]["x"].asString()<<"\t";
+        //  std::cout << "\nposcion y: " << triples[i]["y"].asString()<<"\n";
+    }
+    const Json::Value &diccionario = objJson["diccionario"];
+    for (int i = 0; i < diccionario.size(); i++)
+    {
+        //std::cout << "\nposcion x: " << triples[i]["x"].asString()<<"\t";
+        std::cout << "\npalabra: " << diccionario[i]["palabra"].asString() << "\n";
+    }
+}
+
+bool File::dotGraphGenerator(string namefile, string textGraphviz)
+{
+    string stringTmp = "dot -Tpng " + namefile +".dot -o " + namefile + ".png";
+    string comandDisplay = "display " + namefile + ".png &";
+
+    if (createOrWriteFile(namefile + ".dot", textGraphviz))
+    {
+        char *dot = new char[stringTmp.size() + 1];
+        strcpy(dot, stringTmp.c_str());
+        char *displayOpen = new char[comandDisplay.size() + 1];
+        strcpy(displayOpen, comandDisplay.c_str());
+        //std::cout << dot << "\n";
+        //std::cout << displayOpen << "\n";
+        system(dot);
+        system(displayOpen);
     }
 }
 

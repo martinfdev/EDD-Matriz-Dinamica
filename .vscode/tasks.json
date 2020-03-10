@@ -15,6 +15,9 @@
                 "Init.cpp",
                 "File.h",
                 "File.cpp",
+                "ListaDobleC.h",
+                "ListaDobleC.cpp",
+                
                 //librerias
                 "-l",
                 "jsoncpp"

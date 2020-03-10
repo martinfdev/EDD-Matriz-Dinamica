@@ -11,6 +11,7 @@ public:
     std::string ReadFile(std::string);
     bool createOrWriteFile(std::string, std::string);
     void readJson(std::string);
+    bool dotGraphGenerator(std::string, std::string);
     ~File();
 };
 #endif
