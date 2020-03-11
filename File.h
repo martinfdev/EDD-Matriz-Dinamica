@@ -6,21 +6,21 @@
 #define FILE_H
 #include <iostream>
 #include "ListaDoble.h"
-#include "ListaDoble.cpp"
+
+using std::string;
 
 class File
 {
 private:
-    std::string cadena;
-    ListaDoble<string>* dicionario;
-
+    string cadena;
+    ListaDoble<string>* dictionary;
 public:
     File();
     File(ListaDoble<string>*);
-    std::string ReadFile(std::string);
-    bool createOrWriteFile(std::string, std::string);
-    void readJson(std::string);
-    bool dotGraphGenerator(std::string, std::string);
+    string ReadFile(string);
+    bool createOrWriteFile(string, string);
+    void readJson(string);
+    bool dotGraphGenerator(string, string);
     ~File();
 };
 #endif

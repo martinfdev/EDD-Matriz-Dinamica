@@ -21,8 +21,6 @@ class List
 {
     public:
         List();
-        ~List();
-
         void add_head(T);
         void add_end(T);
         void add_sort(T);
@@ -39,6 +37,7 @@ class List
         void save_file(string);
         void search(T);
         void sort();
+        ~List();
 
     private:
         Node<T> *m_head;

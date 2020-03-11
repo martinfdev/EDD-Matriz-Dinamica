@@ -17,13 +17,12 @@ using std::ios;
 using std::ofstream;
 using std::string;
 
-File::File(){
-
+File::File(/* args */)
+{
 }
 
-File::File(ListaDoble<string>* diccionario)
-{
-    this->dicionario = diccionario;
+File::File(ListaDoble<string>* dictionary){
+    this->dictionary = dictionary;
 }
 
 bool File::createOrWriteFile(string nameFile, string textoAescribir)
@@ -94,7 +93,8 @@ void File::readJson(string json)
     for (int i = 0; i < diccionario.size(); i++)
     {
         //std::cout << "\nposcion x: " << triples[i]["x"].asString()<<"\t";
-        
+        //std::cout << "\npalabra: " << diccionario[i]["palabra"].asString() << "\n";
+        dictionary->insertarUltimoC(diccionario[i]["palabra"].asString());
     }
 }
 
