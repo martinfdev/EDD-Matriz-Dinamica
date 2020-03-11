@@ -8,16 +8,22 @@
 #include <fstream>
 #include <iostream>
 #include <cstring>
-
 #include <jsoncpp/json/json.h>
+#include "ListaDoble.h"
+#include "ListaDoble.cpp"
 
 using std::ifstream;
 using std::ios;
 using std::ofstream;
 using std::string;
 
-File::File(/* args */)
+File::File(){
+
+}
+
+File::File(ListaDoble<string>* diccionario)
 {
+    this->dicionario = diccionario;
 }
 
 bool File::createOrWriteFile(string nameFile, string textoAescribir)
@@ -88,7 +94,7 @@ void File::readJson(string json)
     for (int i = 0; i < diccionario.size(); i++)
     {
         //std::cout << "\nposcion x: " << triples[i]["x"].asString()<<"\t";
-        std::cout << "\npalabra: " << diccionario[i]["palabra"].asString() << "\n";
+        
     }
 }
 

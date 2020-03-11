@@ -8,6 +8,7 @@
 #include <string>
 #include <stdlib.h>
 #include "Node.h"
+#include "Node.cpp"
 
 using std::string;
 

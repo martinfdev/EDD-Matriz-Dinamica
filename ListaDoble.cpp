@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include "ListaDoble.h"
 
-using std::string;
+using namespace std;
 
 //constructor por defecto
 template<typename T>
@@ -15,7 +15,8 @@ ListaDoble<T>::ListaDoble() {
 }
 //metodo privado que espera como parametro un nodo n y el dato insertando al inicio de la lista
 template<typename T>
-void ListaDoble<T>::insertarInicio(Node<T>* n, T data) {
+void ListaDoble<T>::insertarInicio(Node<T>* n, T data) {  
+     
     Node<T>* nuevo = new Node<T>(data);
     
     if (primero == NULL) {
@@ -38,11 +39,16 @@ void ListaDoble<T>::insertarInicio(Node<T>* n, T data) {
 //metodo privado que espera como parametro un nodo n y el dato insertando al final de la lista
 template<typename T>
 void ListaDoble<T>::insertarFinal(Node<T>* n, T data) {
+    
      Node<T>* nuevo = new Node<T>(data);
-    if (ultimo==NULL) {
-        ultimo = primero = nuevo;
+    if (ultimo == nullptr) {
+        cout<<(ultimo==nullptr)<<"\n";
+        ultimo = nuevo;
+        primero = nuevo;
         size++;
+        
     }else if (ultimo == n) {
+        cout<<data<<"\n";
         nuevo->setBehind(ultimo);
         ultimo->setNext(nuevo);
         ultimo=nuevo;

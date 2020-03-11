@@ -5,8 +5,10 @@
 #ifndef NODE_H
 #define NODE_H
 #include <string>
+#include <iostream>
+#include <stdlib.h> 
 
-using std::string;
+using namespace std;
 
 template<class T>
 class Node
