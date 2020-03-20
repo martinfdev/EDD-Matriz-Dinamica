@@ -328,6 +328,7 @@ void MatrizDispersa::report()
         }
 
         //recorrer para hacer los nodos de los datos
+        tempX = tempY->getRight();
         while (tempY != NULL)
         {
             tempX = tempY->getRight();
