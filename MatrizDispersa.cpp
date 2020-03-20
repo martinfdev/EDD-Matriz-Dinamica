@@ -314,7 +314,6 @@ void MatrizDispersa::report()
             tempX = tempX->getRight();
         }
         rankSameX = rankSameX + "}";
-        graph->addln(rankSameX);
 
         //recorrer encabezado Y para porder agregarlos al dot
         graph->addln("nodeXY -> nodeY" + to_string(tempY->getY()) + " [dir=both];");
@@ -329,24 +328,24 @@ void MatrizDispersa::report()
         }
 
         //recorrer para hacer los nodos de los datos
-        //while (tempY != NULL)
-        //{
-        //    tempX = tempY->getRight();
-        //    while (tempX != NULL)
-        //    {
-        //        graph->addln("nodeX"+to_string(tempX->getX())+" [label=\"X = "+to_string(tempX->getX())+"\"];");
-        //        if (tempX->getRight()!= nullptr){
-        //
-        //
-        //            graph->addln("nodeX"+to_string(tempX->getX())+" -> nodeX"+to_string(tempX->getRight()->getX())+" [dir = both];");
-        //        }
-        //        tempX = tempX->getRight();
-        //    }
-        //    graph->addln("nodeY"+to_string(tempY->getY())+" [label=\"Y ="+to_string(tempY->getY())+"\"];");
-        //    tempY = tempY->getDown();
-        //}
-    }
+        while (tempY != NULL)
+        {
+            tempX = tempY->getRight();
+            while (tempX != NULL)
+            {
+                graph->addln("nodeX" + to_string(tempX->getX()) + " [label=\"X = " + to_string(tempX->getX()) + "\"];");
+                if (tempX->getRight() != nullptr)
+                {
 
+                    graph->addln("nodeX" + to_string(tempX->getX()) + " -> nodeX" + to_string(tempX->getRight()->getX()) + " [dir = both];");
+                }
+                tempX = tempX->getRight();
+            }
+            graph->addln("nodeY" + to_string(tempY->getY()) + " [label=\"Y =" + to_string(tempY->getY()) + "\"];");
+            tempY = tempY->getDown();
+        }
+        graph->addln(rankSameX);
+    }
     graph->addln(graph->end());
     graph->dotGraphGenerator("matriz", graph->getDotSource());
 }
