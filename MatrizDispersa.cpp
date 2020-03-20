@@ -298,53 +298,126 @@ void MatrizDispersa::report()
     graph->addln("nodeXY [label=\"y\\\\x\"];");
     NodeM *tempY = root->getDown();
     NodeM *tempX = root->getRight();
+    NodeM *aux;
     if (!isEmpty())
     {
         //recorrer encabezado X para porder agregarlos al dot
-        string rankSameX = "{ rank=same; nodeXY; ";
-        graph->addln("nodeXY -> nodeX" + to_string(tempX->getX()) + " [dir=both];");
+        string rankSameX = "{rank=same; nodeXY; ";
+        string nodesY = "", nodesYp = "", nodesX = "", nodesXp = "", nodeV = "", nodeVp = "";
+
+        nodesXp = nodesXp + "nodeXY -> nodeX" + to_string(tempX->getX()) + " [dir=both];\n";
+        //graph->addln("nodeXY -> nodeX" + to_string(tempX->getX()) + " [dir=both];");
         while (tempX != nullptr)
         {
-            graph->addln("nodeX" + to_string(tempX->getX()) + " [label=\"X =" + to_string(tempX->getX()) + "\"];");
+            //graph->addln("nodeX" + to_string(tempX->getX()) + " [label=\"X=" + to_string(tempX->getX()) + "\"];"); //funcional
+            nodesX = nodesX + "nodeX" + to_string(tempX->getX()) + " [label=\"X=" + to_string(tempX->getX()) + "\"];\n";
             rankSameX = rankSameX + "nodeX" + to_string(tempX->getX()) + "; ";
+            //
             if (tempX->getRight() != nullptr)
             {
-                graph->addln("nodeX" + to_string(tempX->getX()) + " -> nodeX" + to_string(tempX->getRight()->getX()) + " [dir = both];");
+                nodesXp = nodesXp + "nodeX" + to_string(tempX->getX()) + " -> nodeX" + to_string(tempX->getRight()->getX()) + " [dir=both];\n";
+                //graph->addln("nodeX" + to_string(tempX->getX()) + " -> nodeX" + to_string(tempX->getRight()->getX()) + " [dir=both];");
             }
             tempX = tempX->getRight();
         }
-        rankSameX = rankSameX + "}";
+        rankSameX = rankSameX + "}\n";
+        //recorrer encabezado Y para poder agregarlos al dot
+        //graph->addln("nodeXY -> nodeY" + to_string(tempY->getY()) + " [dir=both];");
+        nodesYp = nodesYp + "nodeXY -> nodeY" + to_string(tempY->getY()) + " [dir=both];\n";
 
-        //recorrer encabezado Y para porder agregarlos al dot
-        graph->addln("nodeXY -> nodeY" + to_string(tempY->getY()) + " [dir=both];");
         while (tempY != nullptr)
         {
-            graph->addln("nodeY" + to_string(tempY->getY()) + " [label=\"Y =" + to_string(tempY->getY()) + "\"];");
+
+            //graph->addln("nodeY" + to_string(tempY->getY()) + " [label=\"Y=" + to_string(tempY->getY()) + "\"];");
+            nodesY = nodesY + "nodeY" + to_string(tempY->getY()) + " [label=\"Y=" + to_string(tempY->getY()) + "\"];\n";
+            aux = tempY->getRight(); //auxiliar para producir nodos
             if (tempY->getDown() != nullptr)
             {
-                graph->addln("nodeY" + to_string(tempY->getY()) + " -> nodeY" + to_string(tempY->getDown()->getY()) + " [dir = both];");
-            }
-            tempY = tempY->getDown();
-        }
-
-        //recorrer para hacer los nodos de los datos
-        tempX = tempY->getRight();
-        while (tempY != NULL)
-        {
-            tempX = tempY->getRight();
-            while (tempX != NULL)
-            {
-                graph->addln("nodeX" + to_string(tempX->getX()) + " [label=\"X = " + to_string(tempX->getX()) + "\"];");
-                if (tempX->getRight() != nullptr)
+                //genera los nodos dot de la columna (y)
+                nodesYp = nodesYp + "nodeY" + to_string(tempY->getY()) + " -> nodeY" + to_string(tempY->getDown()->getY()) + " [dir=both];\n";
+                //graph->addln("nodeY" + to_string(tempY->getY()) + " -> nodeY" + to_string(tempY->getDown()->getY()) + " [dir = both];");
+                nodeVp = nodeVp + "nodeY" + to_string(tempY->getY()) + " -> nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [dir=both];\n";
+                if (aux->getRight() != nullptr)
                 {
-
-                    graph->addln("nodeX" + to_string(tempX->getX()) + " -> nodeX" + to_string(tempX->getRight()->getX()) + " [dir = both];");
+                    rankSameX = rankSameX + "{rank=same; ";
+                    rankSameX = rankSameX + "nodeY" + to_string(tempY->getY()) + "; ";
+                    rankSameX = rankSameX + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + "; ";
+                    //genera todos los nodos
+                    nodeV = nodeV + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [label=\"" + aux->getData() + "\"];\n";
+                    while (aux != nullptr)
+                    {
+                        if (aux->getRight() != nullptr)
+                        {
+                            rankSameX = rankSameX +"nodev" + to_string(aux->getRight()->getX()) + to_string(aux->getRight()->getY()) +"; ";
+                            rankSameX = rankSameX+"}\n";
+                            //-------------------------------------
+                            nodeV = nodeV + "nodev" + to_string(aux->getRight()->getX()) + to_string(aux->getRight()->getY()) + " [label=\"" + aux->getRight()->getData() + "\"];\n";
+                            nodeVp = nodeVp + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " -> nodev" + to_string(aux->getRight()->getX()) + to_string(aux->getRight()->getY()) + " [constraint=false, dir=both];\n";
+                            
+                        }
+                        //else
+                        //{
+                        //  // nodeV = nodeV + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [label=\"" + aux->getData() + "\"];\n";
+                        //}
+                        aux = aux->getRight();
+                    }
+                    
                 }
-                tempX = tempX->getRight();
+                else
+                {
+                    //rankSameX = rankSameX+"nodev"+to_string(aux->getX()) + to_string(aux->getY()) +"; ";
+                    //rankSameX = rankSameX + "}\n";
+                    nodeV = nodeV + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [label=\"" + aux->getData() + "\"];\n";
+                }
             }
-            graph->addln("nodeY" + to_string(tempY->getY()) + " [label=\"Y =" + to_string(tempY->getY()) + "\"];");
+            else
+            { //para no saltarse el ultimo nodo
+                if (aux != nullptr)
+                {
+                    //genera todos los nodos que estan de ultimo y se los salta por la condicional
+                    rankSameX = rankSameX + "{rank=same; ";
+                    rankSameX = rankSameX + "nodeY" + to_string(tempY->getY()) + "; ";
+                    //pendiente ciclo en caso de mas nodos que le siguen en columna X
+                    rankSameX = rankSameX + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + "; ";
+                    rankSameX = rankSameX + "}\n";
+                    nodeVp = nodeVp + "nodeY" + to_string(tempY->getY()) + " -> nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [dir=both];\n";
+                    nodeV = nodeV + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [label=\"" + aux->getData() + "\"];\n";
+                    //while (aux != nullptr)
+                    //{
+                    //    if (aux->getRight() != nullptr)
+                    //    {
+                    //        nodeV = nodeV + "nodev" + to_string(aux->getRight()->getX()) + to_string(aux->getRight()->getY()) + " [label=\"" + aux->getRight()->getData() + "\"];\n";
+                    //    }
+                    //    aux = aux->getRight();
+                    //}
+                }
+            }
             tempY = tempY->getDown();
         }
+        ////reaujustar los valores de los punteros temporales
+        ////recorrer para hacer los nodos de los datos
+        //tempY = root->getDown();
+        //tempX = tempY->getRight();
+        //while (tempY != NULL)
+        //{
+        //    tempX = tempY->getRight();
+        //    while (tempX != NULL)
+        //    {
+        //        nodeV = nodeV + "nodev" + to_string(tempX->getX()) + " [label=\"" + tempX->getData() + "\"];\n";
+        //        //graph->addln("nodevX" + to_string(tempX->getX()) + " [label=\""+tempX->getData() +"\"];");
+        //       // nodeVp = nodeVp + "nodeX" + to_string(tempX->getX()) + " -> nodev" + to_string(tempX->getX()) + " [dir=both];\n";
+        //        //graph->addln("nodevX" + to_string(tempX->getX()) + " -> nodeX" + to_string(tempX->getRight()->getX()) + " [dir=both];");
+        //        tempX = tempX->getRight();
+        //    }
+        //    //graph->addln("nodeY" + to_string(tempY->getY()) + " [label=\"Y=" + to_string(tempY->getY()) + "\"];");
+        //    tempY = tempY->getDown();
+        //}
+        graph->addln(nodesX);
+        graph->addln(nodesY);
+        graph->addln(nodeV);
+        graph->addln(nodesXp);
+        graph->addln(nodesYp);
+        graph->addln(nodeVp);
         graph->addln(rankSameX);
     }
     graph->addln(graph->end());

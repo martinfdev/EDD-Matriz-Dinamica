@@ -35,9 +35,9 @@ Init::Init()
     matriz->insertMatrix(5,0,"5,0");
     matriz->insertMatrix(5,5,"5,5");
     matriz->insertMatrix(2,3,"2,3");
-    matriz->insertMatrix(3,3, "3,3");
-    matriz->insertMatrix(3,2,"3, 2");
-   // matriz->showMatrix();
+    matriz->insertMatrix(3,3,"3,3");
+    matriz->insertMatrix(3,2,"3,2");
+    //matriz->showMatrix();
     matriz->report();
 
 }

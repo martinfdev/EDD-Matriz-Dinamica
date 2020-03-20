@@ -4,24 +4,48 @@ node [shape=rectangle, color=blue, height=0.5, width=0.5];
 edge [color= red];
 graph[ nodesep = 0.5];
 nodeXY [label="y\\x"];
+nodeX0 [label="X=0"];
+nodeX2 [label="X=2"];
+nodeX3 [label="X=3"];
+nodeX5 [label="X=5"];
+
+nodeY0 [label="Y=0"];
+nodeY1 [label="Y=1"];
+nodeY2 [label="Y=2"];
+nodeY3 [label="Y=3"];
+nodeY5 [label="Y=5"];
+
+nodev00 [label="0,0"];
+nodev50 [label="5,0"];
+nodev21 [label="2,1"];
+nodev32 [label="3,2"];
+nodev23 [label="2,3"];
+nodev33 [label="3,3"];
+nodev55 [label="5,5"];
+
 nodeXY -> nodeX0 [dir=both];
-nodeX0 [label="X =0"];
-nodeX0 -> nodeX2 [dir = both];
-nodeX2 [label="X =2"];
-nodeX2 -> nodeX3 [dir = both];
-nodeX3 [label="X =3"];
-nodeX3 -> nodeX5 [dir = both];
-nodeX5 [label="X =5"];
-{ rank=same; nodeXY; nodeX0; nodeX2; nodeX3; nodeX5; }
+nodeX0 -> nodeX2 [dir=both];
+nodeX2 -> nodeX3 [dir=both];
+nodeX3 -> nodeX5 [dir=both];
+
 nodeXY -> nodeY0 [dir=both];
-nodeY0 [label="Y =0"];
-nodeY0 -> nodeY1 [dir = both];
-nodeY1 [label="Y =1"];
-nodeY1 -> nodeY2 [dir = both];
-nodeY2 [label="Y =2"];
-nodeY2 -> nodeY3 [dir = both];
-nodeY3 [label="Y =3"];
-nodeY3 -> nodeY5 [dir = both];
-nodeY5 [label="Y =5"];
+nodeY0 -> nodeY1 [dir=both];
+nodeY1 -> nodeY2 [dir=both];
+nodeY2 -> nodeY3 [dir=both];
+nodeY3 -> nodeY5 [dir=both];
+
+nodeY0 -> nodev00 [dir=both];
+nodev00 -> nodev50 [constraint=false, dir=both];
+nodeY1 -> nodev21 [dir=both];
+nodeY2 -> nodev32 [dir=both];
+nodeY3 -> nodev23 [dir=both];
+nodev23 -> nodev33 [constraint=false, dir=both];
+nodeY5 -> nodev55 [dir=both];
+
+{ rank=same; nodeXY; nodeX0; nodeX2; nodeX3; nodeX5; }
+{rank=same; nodeY0; nodev00; nodev50; }
+{rank=same; nodeY3; nodev23; nodev33; }
+{rank=same; nodeY5; nodev55; }
+
 }
 
