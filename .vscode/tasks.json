@@ -17,7 +17,12 @@
                 "File.cpp",
                 "ListaDoble.h",
                 "ListaDoble.cpp",
-                
+                "Lista.h",
+                "Lista.cpp",
+                "NodeM.h",
+                "NodeM.cpp",
+                "MatrizDispersa.h",
+                "MatrizDispersa.cpp",
                 //librerias
                 "-l",
                 "jsoncpp"

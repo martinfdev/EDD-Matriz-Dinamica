@@ -1,47 +1,41 @@
 /* 
- * File:   Node.h
+ * File:   Lista.h
  * Author: pedro
  */
-#ifndef LIST_H
-#define LIST_H
-
+#ifndef LISTA_H
+#define LISTA_H
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <stdlib.h>
-
 #include "Node.h"
-#include "Node.cpp"
 
 using namespace std;
 
 template <class T>
-
-class List
+class Lista
 {
     public:
-        List();
-        void add_head(T);
-        void add_end(T);
+        Lista();
+        void add_headS(T); //S al final significa simple pa una lista simplemente enlazada
+        void add_endS(T);
         void add_sort(T);
-        void concat(List);
+        void add_endC(T);
+        void del_headS();
         void del_all();
-        void del_by_data(T);
-        void del_by_position(int);
-        void fill_by_user(int);
-        void fill_random(int);
-        void intersection(List);
-        void invert();
-        void load_file(string);
-        void print();
-        void save_file(string);
-        void search(T);
-        void sort();
-        ~List();
+        void printS();
+        void printC();
+        Node<T>* search(T);
+        int size(){return sizeL;}
+        bool isEmptyS();
+        bool isEmptyC();
+        ~Lista();
 
     private:
         Node<T> *m_head;
-        int m_num_nodes;
+        Node<T> *m_last;
+        int sizeL;
+        Node<T>* searchAll(Node<T>*, T);
 };
 
-#endif // LIST_H
+#endif // LISTA_H

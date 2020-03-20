@@ -2,6 +2,7 @@
 #ifndef MATRIZDISPERSA_H
 #define MATRIZDISPERSA_H
 #include "NodeM.h"
+#include "Graphviz.h"
 using std::string;
 
 class MatrizDispersa
@@ -16,16 +17,19 @@ private:
     void insertNode(NodeM*, NodeM*, NodeM*);
     NodeM* lastNodeColumn(NodeM*);
     NodeM* lastNodeRow(NodeM*);
-
+    Graphviz* graph;
 public:
-    MatrizDispersa(/* args */);
+    MatrizDispersa();
     void insertMatrix(int, int, string);
     bool isEmpty();
     int getSizeX();
     int getSizeY();  
     void showY();
     void showX();
+    void showYNode();
+    void showXNode(); 
     void showMatrix();
+    void report();
     NodeM *search(int);
 
     ~MatrizDispersa();

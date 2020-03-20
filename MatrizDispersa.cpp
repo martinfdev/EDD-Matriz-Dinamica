@@ -2,10 +2,12 @@
 #include <string>
 #include <iostream>
 #include "MatrizDispersa.h"
+
 using std::string;
 MatrizDispersa::MatrizDispersa()
 {
     root = new NodeM(-1, -1, "Nodo raiz no incluido");
+    graph = new Graphviz();
 }
 
 void MatrizDispersa::insertMatrix(int x, int y, string cadena)
@@ -111,7 +113,7 @@ void MatrizDispersa::insertSortRow(NodeM *newY, int y)
     }
 }
 
-//devuelve un booleno cuando la matriz no tiene comlumnas ni filas
+//devuelve un bool cuando la matriz no tiene comlumnas ni filas
 bool MatrizDispersa::isEmpty()
 {
     if (root->getRight() == nullptr && root->getDown() == nullptr)
@@ -204,7 +206,7 @@ void MatrizDispersa::insertNode(NodeM *x, NodeM *y, NodeM *dato)
         dato->setUp(x);
         y->setRight(dato);
         dato->setLeft(y);
-       // std::cout <<x->getDown()->getY()<<" "<<x->getDown()->getX()<<"\n";
+        // std::cout <<x->getDown()->getY()<<" "<<x->getDown()->getX()<<"\n";
     }
     else if (x->getDown() != nullptr && y->getRight() == nullptr)
     {
@@ -213,29 +215,30 @@ void MatrizDispersa::insertNode(NodeM *x, NodeM *y, NodeM *dato)
         tmpXposition->setDown(dato);
         y->setRight(dato);
         dato->setLeft(y);
-      // std::cout << tmpXposition->getX() << " " << tmpXposition->getY() <<"\t"<<tmpXposition->getData()<< "\n";
-
-    }else if (x->getDown() == nullptr && y->getRight() != nullptr)
+        // std::cout << tmpXposition->getX() << " " << tmpXposition->getY() <<"\t"<<tmpXposition->getData()<< "\n";
+    }
+    else if (x->getDown() == nullptr && y->getRight() != nullptr)
     {
-        NodeM* tmpYposition = lastNodeRow(y);
+        NodeM *tmpYposition = lastNodeRow(y);
         dato->setLeft(tmpYposition);
         tmpYposition->setRight(dato);
         x->setDown(dato);
         dato->setUp(x);
-       // std::cout << tmpYposition->getX() << " " << tmpYposition->getY() <<"\t"<<tmpYposition->getData()<< "\n";
-    }else if (x->getDown() != nullptr && y->getRight() != nullptr)
+        // std::cout << tmpYposition->getX() << " " << tmpYposition->getY() <<"\t"<<tmpYposition->getData()<< "\n";
+    }
+    else if (x->getDown() != nullptr && y->getRight() != nullptr)
     {
-        NodeM* tmpXposition = lastNodeColumn(x);
-        NodeM* tmpYposition = lastNodeRow(y);
+        NodeM *tmpXposition = lastNodeColumn(x);
+        NodeM *tmpYposition = lastNodeRow(y);
 
-        if (tmpXposition->getDown()==nullptr && tmpYposition->getRight() == nullptr)
+        if (tmpXposition->getDown() == nullptr && tmpYposition->getRight() == nullptr)
         {
             dato->setUp(tmpXposition);
             tmpXposition->setDown(dato);
             dato->setLeft(tmpYposition);
             tmpYposition->setRight(dato);
-          
-           std::cout << tmpYposition->getX() << " " << tmpYposition->getY() <<"\t"<<tmpYposition->getData()<< "\n";
+
+            std::cout << tmpYposition->getX() << " " << tmpYposition->getY() << "\t" << tmpYposition->getData() << "\n";
         }
     }
 }
@@ -251,8 +254,9 @@ NodeM *MatrizDispersa::lastNodeColumn(NodeM *n)
 }
 
 //metodo que devuelve el ultimo nodo en la fila por posicion
-NodeM *MatrizDispersa::lastNodeRow(NodeM* n){
-    while (n->getRight()!=nullptr)
+NodeM *MatrizDispersa::lastNodeRow(NodeM *n)
+{
+    while (n->getRight() != nullptr)
     {
         n = n->getRight();
     }
@@ -263,8 +267,88 @@ int MatrizDispersa::getSizeX() { return sizeX; }
 int MatrizDispersa::getSizeY() { return sizeY; }
 
 //mostrar cotenido de la matriz
-void MatrizDispersa::showMatrix(){
-    
+void MatrizDispersa::showMatrix()
+{
+    NodeM *tempY = root->getDown();
+    NodeM *tempX;
+    if (!isEmpty())
+    {
+        while (tempY != NULL)
+        {
+            tempX = tempY->getRight();
+            while (tempX != NULL)
+            {
+                std::cout << tempX->getData() << "->";
+                tempX = tempX->getRight();
+            }
+            std::cout << "\n";
+            tempY = tempY->getDown();
+        }
+    }
+}
+
+//genera un reporte en graphviz
+void MatrizDispersa::report()
+{
+    graph->addln(graph->start_graph());
+    graph->addln("rankdir = TB;");
+    graph->addln("node [shape=rectangle, color=blue, height=0.5, width=0.5];");
+    graph->addln("edge [color= red];");
+    graph->addln("graph[ nodesep = 0.5];");
+    graph->addln("nodeXY [label=\"y\\\\x\"];");
+    NodeM *tempY = root->getDown();
+    NodeM *tempX = root->getRight();
+    if (!isEmpty())
+    {
+        //recorrer encabezado X para porder agregarlos al dot
+        string rankSameX = "{ rank=same; nodeXY; ";
+        graph->addln("nodeXY -> nodeX" + to_string(tempX->getX()) + " [dir=both];");
+        while (tempX != nullptr)
+        {
+            graph->addln("nodeX" + to_string(tempX->getX()) + " [label=\"X =" + to_string(tempX->getX()) + "\"];");
+            rankSameX = rankSameX + "nodeX" + to_string(tempX->getX()) + "; ";
+            if (tempX->getRight() != nullptr)
+            {
+                graph->addln("nodeX" + to_string(tempX->getX()) + " -> nodeX" + to_string(tempX->getRight()->getX()) + " [dir = both];");
+            }
+            tempX = tempX->getRight();
+        }
+        rankSameX = rankSameX + "}";
+        graph->addln(rankSameX);
+
+        //recorrer encabezado Y para porder agregarlos al dot
+        graph->addln("nodeXY -> nodeY" + to_string(tempY->getY()) + " [dir=both];");
+        while (tempY != nullptr)
+        {
+            graph->addln("nodeY" + to_string(tempY->getY()) + " [label=\"Y =" + to_string(tempY->getY()) + "\"];");
+            if (tempY->getDown() != nullptr)
+            {
+                graph->addln("nodeY" + to_string(tempY->getY()) + " -> nodeY" + to_string(tempY->getDown()->getY()) + " [dir = both];");
+            }
+            tempY = tempY->getDown();
+        }
+
+        //recorrer para hacer los nodos de los datos
+        //while (tempY != NULL)
+        //{
+        //    tempX = tempY->getRight();
+        //    while (tempX != NULL)
+        //    {
+        //        graph->addln("nodeX"+to_string(tempX->getX())+" [label=\"X = "+to_string(tempX->getX())+"\"];");
+        //        if (tempX->getRight()!= nullptr){
+        //
+        //
+        //            graph->addln("nodeX"+to_string(tempX->getX())+" -> nodeX"+to_string(tempX->getRight()->getX())+" [dir = both];");
+        //        }
+        //        tempX = tempX->getRight();
+        //    }
+        //    graph->addln("nodeY"+to_string(tempY->getY())+" [label=\"Y ="+to_string(tempY->getY())+"\"];");
+        //    tempY = tempY->getDown();
+        //}
+    }
+
+    graph->addln(graph->end());
+    graph->dotGraphGenerator("matriz", graph->getDotSource());
 }
 
 //destructor

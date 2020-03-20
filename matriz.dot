@@ -1,0 +1,27 @@
+digraph G {
+rankdir = TB;
+node [shape=rectangle, color=blue, height=0.5, width=0.5];
+edge [color= red];
+graph[ nodesep = 0.5];
+nodeXY [label="y\\x"];
+nodeXY -> nodeX0 [dir=both];
+nodeX0 [label="X =0"];
+nodeX0 -> nodeX2 [dir = both];
+nodeX2 [label="X =2"];
+nodeX2 -> nodeX3 [dir = both];
+nodeX3 [label="X =3"];
+nodeX3 -> nodeX5 [dir = both];
+nodeX5 [label="X =5"];
+{ rank=same; nodeXY; nodeX0; nodeX2; nodeX3; nodeX5; }
+nodeXY -> nodeY0 [dir=both];
+nodeY0 [label="Y =0"];
+nodeY0 -> nodeY1 [dir = both];
+nodeY1 [label="Y =1"];
+nodeY1 -> nodeY2 [dir = both];
+nodeY2 [label="Y =2"];
+nodeY2 -> nodeY3 [dir = both];
+nodeY3 [label="Y =3"];
+nodeY3 -> nodeY5 [dir = both];
+nodeY5 [label="Y =5"];
+}
+
