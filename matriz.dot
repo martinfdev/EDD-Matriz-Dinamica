@@ -42,8 +42,10 @@ nodeY3 -> nodev23 [dir=both];
 nodev23 -> nodev33 [constraint=false, dir=both];
 nodeY5 -> nodev55 [dir=both];
 
-{ rank=same; nodeXY; nodeX0; nodeX2; nodeX3; nodeX5; }
+{rank=same; nodeXY; nodeX0; nodeX2; nodeX3; nodeX5; }
 {rank=same; nodeY0; nodev00; nodev50; }
+{rank=same; nodeY1; nodev21; }
+{rank=same; nodeY2; nodev32; }
 {rank=same; nodeY3; nodev23; nodev33; }
 {rank=same; nodeY5; nodev55; }
 

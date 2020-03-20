@@ -33,10 +33,13 @@ Init::Init()
     matriz->insertMatrix(0,0,"0,0");
     matriz->insertMatrix(2,1,"2,1");
     matriz->insertMatrix(5,0,"5,0");
+    //matriz->insertMatrix(0,5,"0,5");
+    //matriz->insertMatrix(2,5,"2,5");
     matriz->insertMatrix(5,5,"5,5");
     matriz->insertMatrix(2,3,"2,3");
     matriz->insertMatrix(3,3,"3,3");
     matriz->insertMatrix(3,2,"3,2");
+    
     //matriz->showMatrix();
     matriz->report();
 
