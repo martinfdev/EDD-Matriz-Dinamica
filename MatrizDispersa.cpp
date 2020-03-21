@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include "MatrizDispersa.h"
+#include "Graphviz.cpp"
 
 using std::string;
 MatrizDispersa::MatrizDispersa()
@@ -16,7 +17,7 @@ void MatrizDispersa::insertMatrix(int x, int y, string cadena)
     NodeM *tmpY = search_Row_Column(root->getDown(), y);
     NodeM *tmpX = search_Row_Column(root->getRight(), x);
 
-    //nuevo nodo de dato
+    //nuevo nodo de data
     NodeM *new_node = new NodeM(x, y, cadena);
 
     if (tmpY == nullptr && tmpX == nullptr)
@@ -198,48 +199,126 @@ NodeM *MatrizDispersa::search_Row_Column(NodeM *n, int position)
 }
 
 //insertar en el indice indicado
-void MatrizDispersa::insertNode(NodeM *x, NodeM *y, NodeM *dato)
+void MatrizDispersa::insertNode(NodeM *x, NodeM *y, NodeM *data)
 {
     if (x->getDown() == nullptr && y->getRight() == nullptr)
     {
-        x->setDown(dato);
-        dato->setUp(x);
-        y->setRight(dato);
-        dato->setLeft(y);
+        x->setDown(data);
+        data->setUp(x);
+        y->setRight(data);
+        data->setLeft(y);
         // std::cout <<x->getDown()->getY()<<" "<<x->getDown()->getX()<<"\n";
     }
     else if (x->getDown() != nullptr && y->getRight() == nullptr)
     {
         NodeM *tmpXposition = lastNodeColumn(x);
-        dato->setUp(tmpXposition);
-        tmpXposition->setDown(dato);
-        y->setRight(dato);
-        dato->setLeft(y);
+        data->setUp(tmpXposition);
+        tmpXposition->setDown(data);
+        y->setRight(data);
+        data->setLeft(y);
         // std::cout << tmpXposition->getX() << " " << tmpXposition->getY() <<"\t"<<tmpXposition->getData()<< "\n";
     }
     else if (x->getDown() == nullptr && y->getRight() != nullptr)
     {
         NodeM *tmpYposition = lastNodeRow(y);
-        dato->setLeft(tmpYposition);
-        tmpYposition->setRight(dato);
-        x->setDown(dato);
-        dato->setUp(x);
+        data->setLeft(tmpYposition);
+        tmpYposition->setRight(data);
+        x->setDown(data);
+        data->setUp(x);
         // std::cout << tmpYposition->getX() << " " << tmpYposition->getY() <<"\t"<<tmpYposition->getData()<< "\n";
     }
     else if (x->getDown() != nullptr && y->getRight() != nullptr)
     {
-        NodeM *tmpXposition = lastNodeColumn(x);
-        NodeM *tmpYposition = lastNodeRow(y);
-
-        if (tmpXposition->getDown() == nullptr && tmpYposition->getRight() == nullptr)
+        NodeM *Xposition = NodeColumnMed(x, data->getY());
+        NodeM *Yposition = NodeRowMed(y, data->getX());
+        cout << NodeColumnMed(x, data->getY())->getData() << "\n";
+        cout << NodeRowMed(y, data->getX())->getData() << "\n";
+        //caso de inserccion cuando los nodos devueltos son los ultimos
+        if (Xposition->getDown() == nullptr && Yposition->getRight() == nullptr)
         {
-            dato->setUp(tmpXposition);
-            tmpXposition->setDown(dato);
-            dato->setLeft(tmpYposition);
-            tmpYposition->setRight(dato);
-
-            // std::cout << tmpYposition->getX() << " " << tmpYposition->getY() << "\t" << tmpYposition->getData() << "\n";
+            data->setUp(Xposition);
+            Xposition->setDown(data);
+            data->setLeft(Yposition);
+            Yposition->setRight(data);
         }
+        else if (Xposition->getDown() == nullptr && Yposition->getRight() != nullptr)
+        {
+            //punteros en vertical cuando el nodo devuelto es el ultimo
+            data->setUp(Xposition);
+            Xposition->setDown(data);
+            //puntero en horizontal cuando el nodo devuelto esta en medio de nodos
+            data->setRight(Yposition->getRight());
+            data->setLeft(Yposition);
+            Yposition->getRight()->setLeft(data);
+            Yposition->setRight(data);
+        }
+        else if (Xposition->getDown() != nullptr && Yposition->getRight() == nullptr)
+        {
+            //el ultimo puntero devuelto en horizontal es el ultimo
+            data->setLeft(Yposition);
+            Yposition->setRight(data);
+
+            //cambio de punteros cuando el nodo devuelto en vertical esta entre nodos
+            data->setUp(Xposition);
+            data->setDown(Xposition->getDown());
+            Xposition->getDown()->setUp(data);
+            Xposition->setDown(data);
+        }
+        else if (Xposition->getDown() != nullptr && Yposition->getRight() != nullptr)
+        {
+            //puntero en horizontal cuando el nodo devuelto esta en medio de nodos
+            data->setRight(Yposition->getRight());
+            data->setLeft(Yposition);
+            Yposition->getRight()->setLeft(data);
+            Yposition->setRight(data);
+
+            //cambio de punteros cuando el nodo devuelto en vertical esta entre nodos
+            data->setUp(Xposition);
+            data->setDown(Xposition->getDown());
+            Xposition->getDown()->setUp(data);
+            Xposition->setDown(data);
+        }
+    }
+}
+
+//metodo para insertar en la matriz en medio de nodos devuelve una posicion anterior
+NodeM *MatrizDispersa::NodeColumnMed(NodeM *n, int y)
+{
+    while (n != nullptr)
+    {
+        if (n->getY() > y && n->getDown() == nullptr)
+        {
+            return n->getUp();
+        }
+        else if (n->getY() > y && n->getDown() != nullptr)
+        {
+            return n->getUp();
+        }
+        else if (n->getDown() == nullptr)
+        {
+            return n;
+        }
+        n = n->getDown();
+    }
+}
+
+NodeM *MatrizDispersa::NodeRowMed(NodeM *n, int x)
+{
+    while (n != nullptr)
+    {
+        if (n->getX() > x && n->getRight() == nullptr)
+        {
+            return n->getLeft();
+        }
+        else if (n->getX() > x && n->getRight() != nullptr)
+        {
+            return n->getLeft();
+        }
+        else if (n->getRight() == nullptr)
+        {
+            return n;
+        }
+        n = n->getRight();
     }
 }
 
@@ -278,6 +357,7 @@ void MatrizDispersa::showMatrix()
             tempX = tempY->getRight();
             while (tempX != NULL)
             {
+
                 std::cout << tempX->getData() << "->";
                 tempX = tempX->getRight();
             }
@@ -298,29 +378,51 @@ void MatrizDispersa::report()
     graph->addln("nodeXY [label=\"y\\\\x\"];");
     NodeM *tempY = root->getDown();
     NodeM *tempX = root->getRight();
-    NodeM *aux;
+    NodeM *aux, *aux2;
     if (!isEmpty())
     {
         //recorrer encabezado X para porder agregarlos al dot
         string rankSameX = "{rank=same; nodeXY; ";
         string nodesY = "", nodesYp = "", nodesX = "", nodesXp = "", nodeV = "", nodeVp = "";
-
         nodesXp = nodesXp + "nodeXY -> nodeX" + to_string(tempX->getX()) + " [dir=both];\n";
         while (tempX != nullptr)
         {
+            //enlace hacia los nodos directos desde la columna
+            nodeVp = nodeVp + "nodeX" + to_string(tempX->getX()) + " -> nodev" + to_string(tempX->getDown()->getX()) + to_string(tempX->getDown()->getY()) + " [dir=both];\n";
+            //------------------------------------------------------------------------------------------------------------------------------------------------------------------
             nodesX = nodesX + "nodeX" + to_string(tempX->getX()) + " [label=\"X=" + to_string(tempX->getX()) + "\"];\n";
-            //---------------------------------------------------------------------------------------------
             rankSameX = rankSameX + "nodeX" + to_string(tempX->getX()) + "; ";
+            aux2 = tempX->getDown();
             if (tempX->getRight() != nullptr)
             {
                 nodesXp = nodesXp + "nodeX" + to_string(tempX->getX()) + " -> nodeX" + to_string(tempX->getRight()->getX()) + " [dir=both];\n";
+                //codigo para enlazar nodos mas internos
+                while (aux2 != nullptr)
+                {
+                    if (aux2->getDown() != nullptr)
+                    {
+                        nodeVp = nodeVp + "nodev" + to_string(aux2->getX()) + to_string(aux2->getY()) + " -> nodev" + to_string(aux2->getDown()->getX()) + to_string(aux2->getDown()->getY()) + " [dir=both];\n";
+                    }
+                    aux2 = aux2->getDown();
+                }
+            }
+            else
+            {
+                //ultima columna
+                while (aux2 != nullptr)
+                {
+                    if (aux2->getDown() != nullptr)
+                    {
+                        nodeVp = nodeVp + "nodev" + to_string(aux2->getX()) + to_string(aux2->getY()) + " -> nodev" + to_string(aux2->getDown()->getX()) + to_string(aux2->getDown()->getY()) + " [dir=both];\n";
+                    }
+                    aux2 = aux2->getDown();
+                }
             }
             tempX = tempX->getRight();
         }
         rankSameX = rankSameX + "}\n";
         //recorrer encabezado Y para poder agregarlos al dot
         nodesYp = nodesYp + "nodeXY -> nodeY" + to_string(tempY->getY()) + " [dir=both];\n";
-
         while (tempY != nullptr)
         {
             nodesY = nodesY + "nodeY" + to_string(tempY->getY()) + " [label=\"Y=" + to_string(tempY->getY()) + "\"];\n";
@@ -329,21 +431,15 @@ void MatrizDispersa::report()
             {
                 //genera los nodos dot de la columna (y)
                 nodesYp = nodesYp + "nodeY" + to_string(tempY->getY()) + " -> nodeY" + to_string(tempY->getDown()->getY()) + " [dir=both];\n";
-                nodeVp = nodeVp + "nodeY" + to_string(tempY->getY()) + " -> nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [dir=both];\n";
+                nodeVp = nodeVp + "nodeY" + to_string(tempY->getY()) + " -> nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [constraint=false, dir=both];\n";
                 if (aux->getRight() != nullptr)
                 {
-                    rankSameX = rankSameX + "{rank=same; ";
-                    rankSameX = rankSameX + "nodeY" + to_string(tempY->getY()) + "; ";
-                    rankSameX = rankSameX + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + "; ";
                     //genera todos los nodos
                     nodeV = nodeV + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [label=\"" + aux->getData() + "\"];\n";
                     while (aux != nullptr)
                     {
                         if (aux->getRight() != nullptr)
                         {
-                            rankSameX = rankSameX + "nodev" + to_string(aux->getRight()->getX()) + to_string(aux->getRight()->getY()) + "; ";
-                            rankSameX = rankSameX + "}\n";
-                            //-------------------------------------
                             nodeV = nodeV + "nodev" + to_string(aux->getRight()->getX()) + to_string(aux->getRight()->getY()) + " [label=\"" + aux->getRight()->getData() + "\"];\n";
                             nodeVp = nodeVp + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " -> nodev" + to_string(aux->getRight()->getX()) + to_string(aux->getRight()->getY()) + " [constraint=false, dir=both];\n";
                         }
@@ -352,10 +448,6 @@ void MatrizDispersa::report()
                 }
                 else
                 {
-                    rankSameX = rankSameX + "{rank=same; ";
-                    rankSameX = rankSameX + "nodeY" + to_string(aux->getY()) + "; ";
-                    rankSameX = rankSameX + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + "; ";
-                    rankSameX = rankSameX + "}\n";
                     nodeV = nodeV + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [label=\"" + aux->getData() + "\"];\n";
                 }
             }
@@ -364,24 +456,17 @@ void MatrizDispersa::report()
                 if (aux != nullptr)
                 {
                     //genera todos los nodos que estan de ultimo y se los salta por la condicional
-                    rankSameX = rankSameX + "{rank=same; ";
-                    rankSameX = rankSameX + "nodeY" + to_string(tempY->getY()) + "; ";
-                    rankSameX = rankSameX + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + "; ";
-                    //-----------------------------------------------------------------
-                    nodeVp = nodeVp + "nodeY" + to_string(tempY->getY()) + " -> nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [dir=both];\n";
+                    nodeVp = nodeVp + "nodeY" + to_string(tempY->getY()) + " -> nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [constraint=false, dir=both];\n";
                     nodeV = nodeV + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " [label=\"" + aux->getData() + "\"];\n";
                     while (aux != nullptr)
                     {
                         if (aux->getRight() != nullptr)
                         {
-                            rankSameX = rankSameX + "nodev" + to_string(aux->getRight()->getX()) + to_string(aux->getRight()->getY()) + "; ";
-                            //------------------------------------------
                             nodeV = nodeV + "nodev" + to_string(aux->getRight()->getX()) + to_string(aux->getRight()->getY()) + " [label=\"" + aux->getRight()->getData() + "\"];\n";
                             nodeVp = nodeVp + "nodev" + to_string(aux->getX()) + to_string(aux->getY()) + " -> nodev" + to_string(aux->getRight()->getX()) + to_string(aux->getRight()->getY()) + " [constraint=false, dir=both];\n";
                         }
                         aux = aux->getRight();
                     }
-                    rankSameX = rankSameX + "}\n";
                 }
             }
             tempY = tempY->getDown();
@@ -392,10 +477,36 @@ void MatrizDispersa::report()
         graph->addln(nodesXp);
         graph->addln(nodesYp);
         graph->addln(nodeVp);
-        graph->addln(rankSameX);
+        graph->add(rankSameX);
+        graph->add(sameX());
     }
     graph->addln(graph->end());
     graph->dotGraphGenerator("matriz", graph->getDotSource());
+}
+
+//revuelvel el rank dir para reporte
+string MatrizDispersa::sameX()
+{
+    NodeM *tempY = root->getDown();
+    NodeM *tempX;
+    string rankSameX;
+    if (!isEmpty())
+    {
+        while (tempY != NULL)
+        {
+            rankSameX = rankSameX + "{rank=same; ";
+            rankSameX = rankSameX + "nodeY" + to_string(tempY->getY()) + "; ";
+            tempX = tempY->getRight();
+            while (tempX != NULL)
+            {
+                rankSameX = rankSameX + "nodev" + to_string(tempX->getX()) + to_string(tempX->getY()) + "; ";
+                tempX = tempX->getRight();
+            }
+            rankSameX = rankSameX + "}\n";
+            tempY = tempY->getDown();
+        }
+    }
+    return rankSameX;
 }
 
 //destructor

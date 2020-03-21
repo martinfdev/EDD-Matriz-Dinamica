@@ -36,6 +36,11 @@ void Graphviz::addln(string line){
     dotSource = dotSource +line+"\n";
 }
 
+//agrega codigo dot sin salto de linea
+void Graphviz::add(string codeDot){
+    dotSource = dotSource+codeDot;
+}
+
 //retorna el encabezado para la grafica;
 string Graphviz::start_graph()
 {

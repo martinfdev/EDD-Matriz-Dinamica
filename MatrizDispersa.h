@@ -3,6 +3,7 @@
 #define MATRIZDISPERSA_H
 #include "NodeM.h"
 #include "Graphviz.h"
+
 using std::string;
 
 class MatrizDispersa
@@ -17,6 +18,9 @@ private:
     void insertNode(NodeM*, NodeM*, NodeM*);
     NodeM* lastNodeColumn(NodeM*);
     NodeM* lastNodeRow(NodeM*);
+    NodeM* NodeColumnMed(NodeM*, int);
+    NodeM* NodeRowMed(NodeM*, int);
+    string sameX();
     Graphviz* graph;
 public:
     MatrizDispersa();

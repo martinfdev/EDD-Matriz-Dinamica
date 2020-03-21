@@ -4,50 +4,73 @@ node [shape=rectangle, color=blue, height=0.5, width=0.5];
 edge [color= red];
 graph[ nodesep = 0.5];
 nodeXY [label="y\\x"];
-nodeX0 [label="X=0"];
-nodeX2 [label="X=2"];
 nodeX3 [label="X=3"];
+nodeX4 [label="X=4"];
 nodeX5 [label="X=5"];
+nodeX6 [label="X=6"];
+nodeX7 [label="X=7"];
+nodeX8 [label="X=8"];
+nodeX9 [label="X=9"];
+nodeX10 [label="X=10"];
 
-nodeY0 [label="Y=0"];
-nodeY1 [label="Y=1"];
-nodeY2 [label="Y=2"];
 nodeY3 [label="Y=3"];
+nodeY4 [label="Y=4"];
 nodeY5 [label="Y=5"];
+nodeY6 [label="Y=6"];
 
-nodev00 [label="0,0"];
-nodev50 [label="5,0"];
-nodev21 [label="2,1"];
-nodev32 [label="3,2"];
-nodev23 [label="2,3"];
-nodev33 [label="3,3"];
-nodev55 [label="5,5"];
+nodev53 [label="H"];
+nodev34 [label="P"];
+nodev44 [label="R"];
+nodev54 [label="O"];
+nodev64 [label="Y"];
+nodev74 [label="E"];
+nodev84 [label="C"];
+nodev94 [label="T"];
+nodev104 [label="O"];
+nodev55 [label="L"];
+nodev56 [label="A"];
 
-nodeXY -> nodeX0 [dir=both];
-nodeX0 -> nodeX2 [dir=both];
-nodeX2 -> nodeX3 [dir=both];
-nodeX3 -> nodeX5 [dir=both];
+nodeXY -> nodeX3 [dir=both];
+nodeX3 -> nodeX4 [dir=both];
+nodeX4 -> nodeX5 [dir=both];
+nodeX5 -> nodeX6 [dir=both];
+nodeX6 -> nodeX7 [dir=both];
+nodeX7 -> nodeX8 [dir=both];
+nodeX8 -> nodeX9 [dir=both];
+nodeX9 -> nodeX10 [dir=both];
 
-nodeXY -> nodeY0 [dir=both];
-nodeY0 -> nodeY1 [dir=both];
-nodeY1 -> nodeY2 [dir=both];
-nodeY2 -> nodeY3 [dir=both];
-nodeY3 -> nodeY5 [dir=both];
+nodeXY -> nodeY3 [dir=both];
+nodeY3 -> nodeY4 [dir=both];
+nodeY4 -> nodeY5 [dir=both];
+nodeY5 -> nodeY6 [dir=both];
 
-nodeY0 -> nodev00 [dir=both];
-nodev00 -> nodev50 [constraint=false, dir=both];
-nodeY1 -> nodev21 [dir=both];
-nodeY2 -> nodev32 [dir=both];
-nodeY3 -> nodev23 [dir=both];
-nodev23 -> nodev33 [constraint=false, dir=both];
-nodeY5 -> nodev55 [dir=both];
+nodeX3 -> nodev34 [dir=both];
+nodeX4 -> nodev44 [dir=both];
+nodeX5 -> nodev53 [dir=both];
+nodev53 -> nodev54 [dir=both];
+nodev54 -> nodev55 [dir=both];
+nodev55 -> nodev56 [dir=both];
+nodeX6 -> nodev64 [dir=both];
+nodeX7 -> nodev74 [dir=both];
+nodeX8 -> nodev84 [dir=both];
+nodeX9 -> nodev94 [dir=both];
+nodeX10 -> nodev104 [dir=both];
+nodeY3 -> nodev53 [constraint=false, dir=both];
+nodeY4 -> nodev34 [constraint=false, dir=both];
+nodev34 -> nodev44 [constraint=false, dir=both];
+nodev44 -> nodev54 [constraint=false, dir=both];
+nodev54 -> nodev64 [constraint=false, dir=both];
+nodev64 -> nodev74 [constraint=false, dir=both];
+nodev74 -> nodev84 [constraint=false, dir=both];
+nodev84 -> nodev94 [constraint=false, dir=both];
+nodev94 -> nodev104 [constraint=false, dir=both];
+nodeY5 -> nodev55 [constraint=false, dir=both];
+nodeY6 -> nodev56 [constraint=false, dir=both];
 
-{rank=same; nodeXY; nodeX0; nodeX2; nodeX3; nodeX5; }
-{rank=same; nodeY0; nodev00; nodev50; }
-{rank=same; nodeY1; nodev21; }
-{rank=same; nodeY2; nodev32; }
-{rank=same; nodeY3; nodev23; nodev33; }
+{rank=same; nodeXY; nodeX3; nodeX4; nodeX5; nodeX6; nodeX7; nodeX8; nodeX9; nodeX10; }
+{rank=same; nodeY3; nodev53; }
+{rank=same; nodeY4; nodev34; nodev44; nodev54; nodev64; nodev74; nodev84; nodev94; nodev104; }
 {rank=same; nodeY5; nodev55; }
-
+{rank=same; nodeY6; nodev56; }
 }
 

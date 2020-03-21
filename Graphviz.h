@@ -20,6 +20,7 @@ public:
     string end();
     void addln();
     void addln(string);
+    void add(string);
     bool dotGraphGenerator(string, string);
     ~Graphviz();
 };
