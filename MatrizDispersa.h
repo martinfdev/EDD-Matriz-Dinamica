@@ -21,6 +21,7 @@ private:
     NodeM* NodeColumnMed(NodeM*, int);
     NodeM* NodeRowMed(NodeM*, int);
     string sameX();
+    bool posxyBusy(NodeM*, int, int);
     Graphviz* graph;
 public:
     MatrizDispersa();
@@ -30,12 +31,9 @@ public:
     int getSizeY();  
     void showY();
     void showX();
-    void showYNode();
-    void showXNode(); 
     void showMatrix();
     void report();
     NodeM *search(int);
-
     ~MatrizDispersa();
 };
 #endif

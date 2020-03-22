@@ -229,54 +229,63 @@ void MatrizDispersa::insertNode(NodeM *x, NodeM *y, NodeM *data)
     }
     else if (x->getDown() != nullptr && y->getRight() != nullptr)
     {
-        NodeM *Xposition = NodeColumnMed(x, data->getY());
-        NodeM *Yposition = NodeRowMed(y, data->getX());
-        cout << NodeColumnMed(x, data->getY())->getData() << "\n";
-        cout << NodeRowMed(y, data->getX())->getData() << "\n";
-        //caso de inserccion cuando los nodos devueltos son los ultimos
-        if (Xposition->getDown() == nullptr && Yposition->getRight() == nullptr)
+        //comprobar si la posicion ya esta ocupada
+        if (!posxyBusy(x, data->getX(), data->getY()))
         {
-            data->setUp(Xposition);
-            Xposition->setDown(data);
-            data->setLeft(Yposition);
-            Yposition->setRight(data);
-        }
-        else if (Xposition->getDown() == nullptr && Yposition->getRight() != nullptr)
-        {
-            //punteros en vertical cuando el nodo devuelto es el ultimo
-            data->setUp(Xposition);
-            Xposition->setDown(data);
-            //puntero en horizontal cuando el nodo devuelto esta en medio de nodos
-            data->setRight(Yposition->getRight());
-            data->setLeft(Yposition);
-            Yposition->getRight()->setLeft(data);
-            Yposition->setRight(data);
-        }
-        else if (Xposition->getDown() != nullptr && Yposition->getRight() == nullptr)
-        {
-            //el ultimo puntero devuelto en horizontal es el ultimo
-            data->setLeft(Yposition);
-            Yposition->setRight(data);
+            NodeM *Xposition = NodeColumnMed(x, data->getY());
+            NodeM *Yposition = NodeRowMed(y, data->getX());
+            //cout << NodeColumnMed(x, data->getY())->getData() << "\n";
+            //cout << NodeRowMed(y, data->getX())->getData() << "\n";
+            //caso de inserccion cuando los nodos devueltos son los ultimos
+            if (Xposition->getDown() == nullptr && Yposition->getRight() == nullptr)
+            {
+                data->setUp(Xposition);
+                Xposition->setDown(data);
+                data->setLeft(Yposition);
+                Yposition->setRight(data);
+            }
+            else if (Xposition->getDown() == nullptr && Yposition->getRight() != nullptr)
+            {
+                //punteros en vertical cuando el nodo devuelto es el ultimo
+                data->setUp(Xposition);
+                Xposition->setDown(data);
+                //puntero en horizontal cuando el nodo devuelto esta en medio de nodos
+                data->setRight(Yposition->getRight());
+                data->setLeft(Yposition);
+                Yposition->getRight()->setLeft(data);
+                Yposition->setRight(data);
+            }
+            else if (Xposition->getDown() != nullptr && Yposition->getRight() == nullptr)
+            {
+                //el ultimo puntero devuelto en horizontal es el ultimo
+                data->setLeft(Yposition);
+                Yposition->setRight(data);
 
-            //cambio de punteros cuando el nodo devuelto en vertical esta entre nodos
-            data->setUp(Xposition);
-            data->setDown(Xposition->getDown());
-            Xposition->getDown()->setUp(data);
-            Xposition->setDown(data);
-        }
-        else if (Xposition->getDown() != nullptr && Yposition->getRight() != nullptr)
-        {
-            //puntero en horizontal cuando el nodo devuelto esta en medio de nodos
-            data->setRight(Yposition->getRight());
-            data->setLeft(Yposition);
-            Yposition->getRight()->setLeft(data);
-            Yposition->setRight(data);
+                //cambio de punteros cuando el nodo devuelto en vertical esta entre nodos
+                data->setUp(Xposition);
+                data->setDown(Xposition->getDown());
+                Xposition->getDown()->setUp(data);
+                Xposition->setDown(data);
+            }
+            else if (Xposition->getDown() != nullptr && Yposition->getRight() != nullptr)
+            {
+                //puntero en horizontal cuando el nodo devuelto esta en medio de nodos
+                data->setRight(Yposition->getRight());
+                data->setLeft(Yposition);
+                Yposition->getRight()->setLeft(data);
+                Yposition->setRight(data);
 
-            //cambio de punteros cuando el nodo devuelto en vertical esta entre nodos
-            data->setUp(Xposition);
-            data->setDown(Xposition->getDown());
-            Xposition->getDown()->setUp(data);
-            Xposition->setDown(data);
+                //cambio de punteros cuando el nodo devuelto en vertical esta entre nodos
+                data->setUp(Xposition);
+                data->setDown(Xposition->getDown());
+                Xposition->getDown()->setUp(data);
+                Xposition->setDown(data);
+            }
+            
+        }
+        else
+        {
+           // cout << "posicion x y ocupada\n";
         }
     }
 }
@@ -507,6 +516,19 @@ string MatrizDispersa::sameX()
         }
     }
     return rankSameX;
+}
+
+bool MatrizDispersa::posxyBusy(NodeM *n, int x, int y)
+{
+    while (n != nullptr)
+    {
+        if (n->getY() == y && n->getX() == x)
+        {
+            return true;
+        }
+        n = n->getDown();
+    }
+    return false;
 }
 
 //destructor

@@ -17,8 +17,8 @@ Init::Init()
     matriz->insertMatrix(5,3,"H");
     matriz->insertMatrix(3,4,"P");
     matriz->insertMatrix(4,4,"R");
-    //matriz->insertMatrix(5,4,"O");
     matriz->insertMatrix(6,4,"Y");
+    matriz->insertMatrix(5,4,"O");
     matriz->insertMatrix(7,4,"E");
     matriz->insertMatrix(8,4,"C");
     matriz->insertMatrix(9,4,"T");
@@ -51,7 +51,7 @@ Init::Init()
     //matriz->insertMatrix(4,2,"4A2");
     //matriz->insertMatrix(4,3,"4A3");
     //matriz->insertMatrix(4,4,"4A4"); 
-       //matriz->showMatrix();
+    // //matriz->showMatrix();
     matriz->report();
 
 }
