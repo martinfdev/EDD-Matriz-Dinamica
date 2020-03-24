@@ -48,7 +48,7 @@ void Lista<T>::add_endS(T data_)
     sizeL++;
 }
 
-// Insertar de manera ordenada
+// Insertar de manera ordenada de menor a mayor
 template <typename T>
 void Lista<T>::add_sort(T data_)
 {
@@ -293,8 +293,6 @@ Node<T>* Lista<T>::search(T data_){
 //    }
 //}
 //
-// Guardar una lista en un archivo
-//template<typename T>
 
 //devuelve un true si simple la lista esta vacia
 template <typename T>
@@ -315,6 +313,37 @@ bool Lista<T>::isEmptyC(){
         return true;
     }
     return false;
+}
+
+//insertar lista simpre ordenadamente de mayor a menor
+template<typename T>
+void Lista<T>::add_sortInvert(T data_){
+
+    Node<T> *new_node = new Node<T>(data_);
+    Node<T> *temp = m_head;
+
+    if (!m_head)
+    {
+        m_head = new_node;
+    }
+    else
+    {
+        if (m_head->getData() < data_)
+        {
+            new_node->setNext(m_head);
+            m_head = new_node;
+        }
+        else
+        {
+            while ((temp->getNext() != NULL) && (temp->getNext()->getData() > data_))
+            {
+                temp = temp->getNext();
+            }
+            new_node->setNext(temp->getNext());
+            temp->setNext(new_node);
+        }
+    }
+    sizeL++;
 }
 
 

@@ -29,6 +29,7 @@ class Lista
         int size(){return sizeL;}
         bool isEmptyS();
         bool isEmptyC();
+        void add_sortInvert(T);
         ~Lista();
 
     private:

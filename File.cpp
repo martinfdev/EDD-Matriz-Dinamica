@@ -1,5 +1,5 @@
 /* 
- * File:   File.cpp
+ * File.cpp
  * Author: pedro
  */
 #include "File.h"

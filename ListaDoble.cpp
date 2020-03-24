@@ -19,18 +19,21 @@ template <typename T>
 void ListaDoble<T>::insertarInicio(Node<T> *n, T data)
 {
     Node<T> *nuevo = new Node<T>(data);
+    //lista vacia
     if (primero == NULL)
     {
         primero = ultimo = nuevo;
         size++;
     }
+    //insertar al inicio
     else if (n == primero)
     {
-        nuevo->setNext(nuevo);
+        nuevo->setNext(primero);
         primero->setBehind(nuevo);
         primero = nuevo;
         size++;
     }
+    //insertar antes de un nodo dado
     else
     {
         n->getBehind()->setNext(nuevo);
@@ -46,16 +49,15 @@ template <typename T>
 void ListaDoble<T>::insertarFinal(Node<T> *n, T data)
 {
     Node<T> *nuevo = new Node<T>(data);
+    //lista esta vacia
     if (ultimo == nullptr)
     {
-        //cout<<(ultimo==nullptr)<<"\n";
-        ultimo = nuevo;
-        primero = nuevo;
+        primero = ultimo = nuevo;
         size++;
     }
-    else if (ultimo == n)
+    //insertar al final
+    else if (n == ultimo)
     {
-        //cout<<data<<"\n";
         nuevo->setBehind(ultimo);
         ultimo->setNext(nuevo);
         ultimo = nuevo;
@@ -71,30 +73,30 @@ void ListaDoble<T>::insertarFinal(Node<T> *n, T data)
     }
 }
 
-//metodo privado que insertar de forma cicular al inicio recibe como parametro Un nodo y un dato
+//metodo privado que inserta de forma cicular al inicio recibe como parametro Un nodo, dato y un bool si es verdadero inserta al inicio falso inserta al final
 template <typename T>
-void ListaDoble<T>::insertarInicioC(Node<T> *n, T data, bool inicio)
+void ListaDoble<T>::insertarC(Node<T> *n, T data, bool inicio)
 {
     Node<T> *nuevo = new Node<T>(data);
+    //inserta un elemento a final de la lista
     if (primero == NULL)
     {
         primero = nuevo;
         primero->setNext(nuevo);
         primero->setBehind(nuevo);
-        size++;
     }
     else
     {
+        //insertar antes de un nodo dado
         n->getBehind()->setNext(nuevo);
         nuevo->setBehind(n->getBehind());
         n->setBehind(nuevo);
         nuevo->setNext(n);
-        size++;
     }
+    //inicio verdadeto inserta al principio de la lista
     if (inicio)
     {
         primero = nuevo;
-        size++;
     }
 }
 
@@ -116,36 +118,42 @@ void ListaDoble<T>::insertarUltimo(T data)
 template <typename T>
 void ListaDoble<T>::InsertarPrimeroC(T data)
 {
-    insertarInicioC(primero, data, true);
+    insertarC(primero, data, true);
+    size++;
 }
 
 //metodo publico que insertar al final de la lista tipo circular
 template <typename T>
 void ListaDoble<T>::insertarUltimoC(T data)
 {
-    insertarInicioC(primero, data, true);
+    insertarC(primero, data, false);
+    size++;
 }
 
 //metodo privado que espera como parameto un nodo n para eliminarlo de la lista
 template <typename T>
 void ListaDoble<T>::borrarNodo(Node<T> *n)
 {
+    //la lista esta vacia
     if (isEmpty())
     {
         //list is empty
     }
+    //solo existe un nodo
     else if (primero == ultimo)
     {
         primero = NULL;
         ultimo = NULL;
         size--;
     }
+    //eliminar al inicio
     else if (primero == n)
     {
         primero = primero->getNext();
         primero->setBehind(NULL);
         size--;
     }
+    //eliminar al final
     else if (ultimo == n)
     {
         ultimo = ultimo->getBehind();
@@ -154,6 +162,7 @@ void ListaDoble<T>::borrarNodo(Node<T> *n)
     }
     else
     {
+        //eliminar en medio
         n->getBehind()->setNext(n->getNext());
         n->getNext()->setBehind(n->getBehind());
         size--;
@@ -260,8 +269,170 @@ void ListaDoble<T>::showC()
             std::cout << aux->getData() << "->";
             aux = aux->getNext();
         } while (aux != primero);
-         std::cout << "\n";
+        std::cout << "\n";
     }
+}
+
+//metodo para graficar un reporte de la lista doble en graphviz
+template <typename T>
+void ListaDoble<T>::reportS()
+{
+}
+
+//metodo que genera una grafica de la lista doble circular enteros o double o float
+template <typename T>
+void ListaDoble<T>::reportIntC(string nameDot)
+{
+    Graphviz *graph = new Graphviz();
+    graph->addln(graph->start_graph());
+    graph->addln("rankdir=LR;");
+    graph->addln("node [shape=record, color=blue, width=0.5, height=0.5]; ");
+    // graph->addln("edge [tailclip=false];");
+    // graph->addln("graph[ nodesep = 0.5]; ");
+    graph->addln();
+    int contador = 0;
+    string nodos, enlaces, enlacesIverso;
+    if (!isEmpty())
+    {
+        Node<T> *aux = primero;
+        do
+        {
+            if (contador < size - 1)
+            {
+                nodos = nodos + "node" + to_string(contador) + " [label=\"{<a>|" + to_string(aux->getData()) + "|<b>}\"];\n";
+                enlaces = enlaces + "node" + to_string(contador) + ":b:c -> node" + to_string(contador + 1) + ":a:c [arrowtail=dot, dir=both,tailclip=false];\n";
+                enlacesIverso = enlacesIverso + "node" + to_string(contador + 1) + ":a:c -> node" + to_string(contador) + ":b:c [arrowtail=dot, dir=both,tailclip=false];\n";
+            }
+            else
+            {
+                nodos = nodos + "node" + to_string(contador) + " [label=\"{<a>|" + to_string(aux->getData()) + "|<b>}\"];\n";
+                enlaces = enlaces + "node" + to_string(contador) + ":b:c -> node" + to_string(0) + ":a:c [arrowtail=dot, dir=both,tailclip=false];\n";
+                enlacesIverso = enlacesIverso + "node" + to_string(0) + ":a:c -> node" + to_string(contador) + ":b:c [arrowtail=dot, dir=both,tailclip=false];\n";
+            }
+            contador++;
+            aux = aux->getNext();
+        } while (aux != primero);
+    }
+    graph->addln(nodos);
+    graph->addln(enlaces);
+    graph->addln(enlacesIverso);
+    graph->addln(graph->end());
+    graph->dotGraphGenerator(nameDot, graph->getDotSource());
+}
+
+//metodo que genera grafica de lista doble circular de string
+template <typename T>
+void ListaDoble<T>::reportStringC(string nameDot)
+{
+    Graphviz *graph = new Graphviz();
+    graph->addln(graph->start_graph());
+    graph->addln("rankdir=LR;");
+    graph->addln("node [shape=record, color=blue, width=0.5, height=0.5]; ");
+    // graph->addln("edge [tailclip=false];");
+    // graph->addln("graph[ nodesep = 0.5]; ");
+    graph->addln();
+    int contador = 0;
+    string nodos, enlaces, enlacesIverso;
+    if (!isEmpty())
+    {
+        Node<T> *aux = primero;
+        do
+        {
+            if (contador < size - 1)
+            {
+                nodos = nodos + "node" + to_string(contador) + " [label=\"{<a>|" + aux->getData() + "|<b>}\"];\n";
+                enlaces = enlaces + "node" + to_string(contador) + ":b:c -> node" + to_string(contador + 1) + ":a:c [arrowtail=dot, dir=both,tailclip=false];\n";
+                enlacesIverso = enlacesIverso + "node" + to_string(contador + 1) + ":a:c -> node" + to_string(contador) + ":b:c [arrowtail=dot, dir=both,tailclip=false];\n";
+            }
+            else
+            {
+                nodos = nodos + "node" + to_string(contador) + " [label=\"{<a>|" + aux->getData() + "|<b>}\"];\n";
+                enlaces = enlaces + "node" + to_string(contador) + ":b:c -> node" + to_string(0) + ":a:c [arrowtail=dot, dir=both,tailclip=false];\n";
+                enlacesIverso = enlacesIverso + "node" + to_string(0) + ":a:c -> node" + to_string(contador) + ":b:c [arrowtail=dot, dir=both,tailclip=false];\n";
+            }
+            contador++;
+            aux = aux->getNext();
+        } while (aux != primero);
+    }
+    graph->addln(nodos);
+    graph->addln(enlaces);
+    graph->addln(enlacesIverso);
+    graph->addln(graph->end());
+    graph->dotGraphGenerator(nameDot, graph->getDotSource());
+}
+
+//metodo para graficar lista doble enlazada simple de int, double, o float
+template <typename T>
+void ListaDoble<T>::reportIntS(string nameDot)
+{
+    Graphviz *graph = new Graphviz();
+    graph->addln(graph->start_graph());
+    graph->addln("rankdir=LR;");
+    graph->addln("node [shape=record, color=blue, width=0.5, height=0.5]; ");
+    graph->addln();
+    int contador = 0;
+    string nodos, enlaces, enlacesIverso;
+    if (!isEmpty())
+    {
+        Node<T> *aux = primero;
+        while (aux != nullptr)
+        {
+            if (contador < size - 1)
+            {
+                nodos = nodos + "node" + to_string(contador) + " [label=\"{<a>|" + to_string(aux->getData()) + "|<b>}\"];\n";
+                enlaces = enlaces + "node" + to_string(contador) + ":b:c -> node" + to_string(contador + 1) + ":a:c [arrowtail=dot, dir=both,tailclip=false];\n";
+                enlacesIverso = enlacesIverso + "node" + to_string(contador + 1) + ":a:c -> node" + to_string(contador) + ":b:c [arrowtail=dot, dir=both,tailclip=false];\n";
+            }
+            else
+            {
+                nodos = nodos + "node" + to_string(contador) + " [label=\"{<a>|" + to_string(aux->getData()) + "|<b>}\"];\n";
+            }
+            contador++;
+            aux = aux->getNext();
+        }
+    }
+    graph->addln(nodos);
+    graph->addln(enlaces);
+    graph->addln(enlacesIverso);
+    graph->addln(graph->end());
+    graph->dotGraphGenerator("LitaDoble", graph->getDotSource());
+}
+
+//metodo para grafica lista doble enlazada simple de strings
+template <typename T>
+void ListaDoble<T>::reportStringS(string nameDot)
+{
+    Graphviz *graph = new Graphviz();
+    graph->addln(graph->start_graph());
+    graph->addln("rankdir=LR;");
+    graph->addln("node [shape=record, color=blue, width=0.5, height=0.5]; "); 
+    graph->addln();
+    int contador = 0;
+    string nodos, enlaces, enlacesIverso;
+    if (!isEmpty())
+    {
+        Node<T> *aux = primero;
+        while (aux != nullptr)
+        {
+            if (contador < size - 1)
+            {
+                nodos = nodos + "node" + to_string(contador) + " [label=\"{<a>|" + aux->getData() + "|<b>}\"];\n";
+                enlaces = enlaces + "node" + to_string(contador) + ":b:c -> node" + to_string(contador + 1) + ":a:c [arrowtail=dot, dir=both,tailclip=false];\n";
+                enlacesIverso = enlacesIverso + "node" + to_string(contador + 1) + ":a:c -> node" + to_string(contador) + ":b:c [arrowtail=dot, dir=both,tailclip=false];\n";
+            }
+            else
+            {
+                nodos = nodos + "node" + to_string(contador) + " [label=\"{<a>|" + aux->getData() + "|<b>}\"];\n";
+            }
+            contador++;
+            aux = aux->getNext();
+        }
+    }
+    graph->addln(nodos);
+    graph->addln(enlaces);
+    graph->addln(enlacesIverso);
+    graph->addln(graph->end());
+    graph->dotGraphGenerator("LitaDoble", graph->getDotSource());
 }
 
 //destructor de la lista

@@ -13,7 +13,7 @@ public:
     void setCantidad(int);
     int getPuntaje();
     int getCantidad();
-    int getValor();
+    void setCantidad(int);
     char getLetra();
     ~Ficha();
 };

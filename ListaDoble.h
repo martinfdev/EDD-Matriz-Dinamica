@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include "Node.h"
 #include "Node.cpp"
+#include "Graphviz.h"
 
 using std::string;
 
@@ -32,6 +33,11 @@ public:
     Node<T> *buscar(T);
     void show();
     bool isEmpty();
+    void reportS();
+    void reportIntC(string);
+    void reportStringC(string);
+    void reportStringS(string);
+    void reportIntS(string);
     virtual ~ListaDoble();
 
 private:
@@ -41,7 +47,7 @@ private:
     void insertarInicio(Node<T> *, T);
     void insertarFinal(Node<T> *, T);
     void borrarNodo(Node<T> *);
-    void insertarInicioC(Node<T> *, T, bool);
+    void insertarC(Node<T> *, T, bool);
 };
 
 #endif /* LISTADOBLE_H */
