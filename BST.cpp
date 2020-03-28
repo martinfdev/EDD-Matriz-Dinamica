@@ -1,5 +1,5 @@
 /* 
- * File:   BTS.h
+ * File:   BST.h
  * Author: pedro
  */
 #include <stdlib.h>
@@ -7,72 +7,74 @@
 #include <iostream>
 #include "BST.h"
 
-
 using namespace std;
 
 //constructor por defecto del ABB
-template <typename T>
-BST<T>::BST()
+//template <typename T>
+BST::BST()
 {
+    graph = new Graphviz();
 }
 
 //metodo para busacar en el arbol
-template <typename T>
-NodeT<T> *BST<T>::searchIn(NodeT<T> *root, T data)
+//template <typename T>
+NodeT<Jugador *> *BST::searchIn(NodeT<Jugador *> *root, string data)
 {
     //caso base la raiz es nula o el dato esta presente
-    if (root==nullptr || root->getData()==data)
+    if (root == nullptr || root->getData()->getName() == data)
     {
         return root;
     }
     // el valor de del rado de la raiz es mayor que el dato buscado
-    if (root->getData()>data)
+    if (root->getData()->getName() > data)
     {
-        return search(root->getLeft(), data);
+        return searchIn(root->getLeft(), data);
     }
-    return search(root->getRight(), data);
+    return searchIn(root->getRight(), data);
 }
 
 //metodo privado para insertar un nodo de forma recursiva
-template <typename T>
-NodeT<T> *BST<T>::insertRec(NodeT<T> *root, T data)
+//template <typename T>
+NodeT<Jugador *> *BST::insertRec(NodeT<Jugador *> *root, string data)
 {
     /*si el arbol esta vacio retorna un nuevo nodo*/
     if (root == nullptr)
     {
-        root = new NodeT<T>(data);
+        root = new NodeT<Jugador *>(new Jugador(data));
     } /*de lo contrario, recorrer el arbol*/
-    else if (data < root->getData())
+    else if (data < root->getData()->getName())
     {
         root->setLeft(insertRec(root->getLeft(), data));
     }
-    else if (data >root->getData())
+    else if (data > root->getData()->getName())
     {
         root->setRight(insertRec(root->getRight(), data));
-    }else{
-        cout<<data<<" este dato esta repetido\n";
-       // throw new exception_ptr;
-    } 
-    
+    }
+    else
+    {
+        cout << data << " este dato esta repetido\n";
+        // throw new exception_ptr;
+    }
+
     /*Retorna el nodo puntero*/
     return root;
 }
 
 //metodo para eliminar de forma recursiva
-template <typename T>
-NodeT<T> *BST<T>::deleteRec(NodeT<T> *root, T data)
+//template <typename T>
+NodeT<Jugador *> *BST::deleteRec(NodeT<Jugador *> *root, string data)
 {
     //caso base el arbol esta vacio
     if (root == nullptr)
         return root;
     //de lo contrario recorrer el arbol
-    if (data < root->getData())
+    if (data < root->getData()->getName())
     {
         root->setLeft(deleteRec(root->getLeft(), data));
     }
-    else if (data > root->getData())
+    else if (data > root->getData()->getName())
     {
-        root->setRight(root->getRight(), data);
+        root->setRight(deleteRec(root->getRight(), data));
     }
     else
     {
@@ -96,72 +98,121 @@ NodeT<T> *BST<T>::deleteRec(NodeT<T> *root, T data)
 }
 
 //metodo privado recorrido de forma inorder
-template <typename T>
-void BST<T>::inorderRec(NodeT<T> *root)
+//template <typename T>
+void BST::inorderRec(NodeT<Jugador *> *root)
 {
     if (root != nullptr)
     {
         inorderRec(root->getLeft());
-        cout << root->getData() << "-->";
+        cout << root->getData()->getName() << "-->";
         inorderRec(root->getRight());
     }
 }
 
 //metodo privado recorrido de forma pre-orden
-template<typename T>
-void BST<T>::preorderRec(NodeT<T>* root){
-    if (root!=nullptr)
+//template<typename T>
+void BST::preorderRec(NodeT<Jugador *> *root)
+{
+    if (root != nullptr)
     {
-        cout<<root->getData()<<"-->";
+        cout << root->getData()->getName() << "-->";
         preorderRec(root->getLeft());
         preorderRec(root->getRight());
     }
 }
 
 //metodo privado recorrido de forma pos-torden
-template<typename T>
-void BST<T>::postorderRec(NodeT<T>* root){
-    if (root!=nullptr)
+//template<typename T>
+void BST::postorderRec(NodeT<Jugador *> *root)
+{
+    if (root != nullptr)
     {
         postorderRec(root->getLeft());
         postorderRec(root->getRight());
-        cout<<root->getData()<<"-->";
+        cout << root->getData()->getName() << "-->";
     }
 }
 
-//metodo publico para insertar 
-template<typename T>
-void BST<T>::insert(T data){
+//metodo publico para insertar
+//template<typename T>
+void BST::insert(string data)
+{
     root = insertRec(root, data);
 }
 
 //metodo publico para buscar
-template<typename T>
-NodeT<T>* BST<T>::search(T data){
+//template<typename T>
+NodeT<Jugador *> *BST::search(string data)
+{
     return searchIn(root, data);
 }
 
-//metodo publico para recorrido ipre-orden
-template<typename T>
-void BST<T>::preorder(){
+//metodo publico para recorrido pre-orden
+//template<typename T>
+void BST::preorder()
+{
     preorderRec(root);
-    cout<<"\n";//salto de linea cuando se sale recorrido
+    cout << "\n"; //salto de linea cuando se sale recorrido
 }
 
 //metodo publico para recorrido inorder
-template<typename T>
-void BST<T>::inorder(){
+//template<typename T>
+void BST::inorder()
+{
     inorderRec(root);
-    cout<<"\n";//salto de linea cuando se recorrido
+    cout << "\n"; //salto de linea cuando se recorrido
 }
 
 //metodo publico para recorrido inorder
-template<typename T>
-void BST<T>::postorder(){
+//emplate<typename T>
+void BST::postorder()
+{
     postorderRec(root);
-    cout<<"\n";//salto de linea cuando se sale del recorrido
+    cout << "\n"; //salto de linea cuando se sale del recorrido
+}
+
+//metodo privado para graficar el arbol
+void BST::reportRe(NodeT<Jugador *> *root)
+{
+    static int count = 0;
+    if (root != nullptr)
+    {
+        if (root->getLeft())
+        {
+            graph->addln(root->getData()->getName() + " -> " + root->getLeft()->getData()->getName()+";");
+            reportRe(root->getLeft());
+        }
+        else
+        {
+            graph->addln("null"+to_string(count)+" [shape=point];");
+            graph->addln(root->getData()->getName()+ "-> null"+to_string(count)+";");
+            count++;
+        }
+        if (root->getRight())
+        {
+            graph->addln(root->getData()->getName() + " -> " + root->getRight()->getData()->getName());
+            reportRe(root->getRight());
+        }
+        else
+        {
+            graph->addln("null"+to_string(count)+" [shape=point];");
+            graph->addln(root->getData()->getName() +" -> null"+to_string(count)+";");
+            count++;
+        }
+    }
+}
+
+//metodo publico para graficar el arbol
+void BST::report()
+{
+    graph->addln(graph->start_graph());
+    graph->addln("node[fontname=\"Arial\", color=\"blue\"]");
+    graph->addln("edge [color=\"green\"]");
+    reportRe(root);
+    graph->addln(graph->end());
+    graph->dotGraphGenerator("Arbol", graph->getDotSource());
 }
 
 //destructor
-template <typename T>
-BST<T>::~BST() {}
+//template <typename T>
+BST::~BST() {}

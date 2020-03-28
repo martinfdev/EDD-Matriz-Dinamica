@@ -21,8 +21,8 @@ File::File(/* args */)
 {
 }
 
-File::File(ListaDoble<string>* dictionary){
-    this->dictionary = dictionary;
+File::File(ListaDoble<string>* dictionary_){
+    dictionary = dictionary_;
 }
 
 bool File::createOrWriteFile(string nameFile, string textoAescribir)

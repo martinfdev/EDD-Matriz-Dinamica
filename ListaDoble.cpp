@@ -287,8 +287,6 @@ void ListaDoble<T>::reportIntC(string nameDot)
     graph->addln(graph->start_graph());
     graph->addln("rankdir=LR;");
     graph->addln("node [shape=record, color=blue, width=0.5, height=0.5]; ");
-    // graph->addln("edge [tailclip=false];");
-    // graph->addln("graph[ nodesep = 0.5]; ");
     graph->addln();
     int contador = 0;
     string nodos, enlaces, enlacesIverso;
@@ -328,8 +326,6 @@ void ListaDoble<T>::reportStringC(string nameDot)
     graph->addln(graph->start_graph());
     graph->addln("rankdir=LR;");
     graph->addln("node [shape=record, color=blue, width=0.5, height=0.5]; ");
-    // graph->addln("edge [tailclip=false];");
-    // graph->addln("graph[ nodesep = 0.5]; ");
     graph->addln();
     int contador = 0;
     string nodos, enlaces, enlacesIverso;

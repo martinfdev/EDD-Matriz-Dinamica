@@ -14,14 +14,14 @@ class NodeT
 {
 private:
     T data;
-    NodeT* left;
-    NodeT* right;
+    NodeT<T>* left;
+    NodeT<T>* right;
 
 public:
     NodeT();
     NodeT(T);
-    void setLeft(NodeT<T>*);
-    void setRight(NodeT<T>*);
+    void setLeft(NodeT*);
+    void setRight(NodeT*);
     void setData(T);
     NodeT<T>* getRight();
     NodeT<T>* getLeft();

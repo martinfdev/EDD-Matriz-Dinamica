@@ -38,5 +38,4 @@ class Lista
         int sizeL;
         Node<T>* searchAll(Node<T>*, T);
 };
-
 #endif // LISTA_H

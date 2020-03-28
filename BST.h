@@ -7,28 +7,34 @@
 #include <string>
 #include "NodeT.h"
 #include "NodeT.cpp"
+#include "Jugador.h"
+#include "Graphviz.h"
+
 
 using namespace std;
 
-template <class T>
+//template <class >
 class BST
 {
 public:
     BST();
     ~BST();
-    void insert(T);
+    void insert(string);
     void preorder();
     void inorder();
     void postorder();
-    NodeT<T>* search(T);
+    NodeT<Jugador*>* search(string);
+    void report();
 
 private:
-    NodeT<T>* root;
-    NodeT<T>* insertRec(NodeT<T>*, T);//insercion de forma recursiva
-    NodeT<T>* deleteRec(NodeT<T>*, T);//elimina de forma recursiva
-    NodeT<T>* searchIn(NodeT<T>*, T);
-    void inorderRec(NodeT<T>*);
-    void postorderRec(NodeT<T>*);
-    void preorderRec(NodeT<T>*);
+    Graphviz *graph;
+    NodeT<Jugador*>* root;
+    NodeT<Jugador*>* insertRec(NodeT<Jugador*>*, string);//insercion de forma recursiva
+    NodeT<Jugador*>* deleteRec(NodeT<Jugador*>*, string);//elimina de forma recursiva
+    NodeT<Jugador*>* searchIn(NodeT<Jugador*>*, string);
+    void inorderRec(NodeT<Jugador*>*);
+    void postorderRec(NodeT<Jugador*>*);
+    void preorderRec(NodeT<Jugador*>*);
+    void reportRe(NodeT<Jugador*>*);
 };
 #endif //BST_H

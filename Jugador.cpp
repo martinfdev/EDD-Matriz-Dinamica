@@ -1,26 +1,8 @@
 /* 
- * File:   Jugador.hpp
+ * File:   Jugador.cpp
  * Author: pedro
  */
-#include "Lista.h"
-#include "Lista.cpp"
-using namespace std;
-
-class Jugador
-{
-private:
-    Lista<int> *score;
-    string name;
-
-public:
-    Jugador();
-    Jugador(string);
-    //void insertScore(int);
-    void setName(string);
-    string getName();
-    Lista<int> *getScore();
-    ~Jugador();
-};
+#include "Jugador.h"
 //constructor por defecto
 Jugador::Jugador()
 {

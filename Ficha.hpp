@@ -12,8 +12,7 @@ public:
     Ficha(int, int, char);
     void setCantidad(int);
     int getPuntaje();
-    int getCantidad();
-    void setCantidad(int);
+    int getCantidad(); 
     char getLetra();
     ~Ficha();
 };
