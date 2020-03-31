@@ -25,7 +25,8 @@
                 "MatrizDispersa.cpp",
                 //librerias
                 "-l",
-                "jsoncpp"
+                "jsoncpp",
+                "-lncurses"
             ],
             "group": {
                 "kind": "build",

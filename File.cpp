@@ -17,7 +17,7 @@ using std::ios;
 using std::ofstream;
 using std::string;
 
-File::File(/* args */)
+File::File()
 {
 }
 

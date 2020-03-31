@@ -401,7 +401,7 @@ void ListaDoble<T>::reportStringS(string nameDot)
     Graphviz *graph = new Graphviz();
     graph->addln(graph->start_graph());
     graph->addln("rankdir=LR;");
-    graph->addln("node [shape=record, color=blue, width=0.5, height=0.5]; "); 
+    graph->addln("node [shape=record, color=blue, width=0.5, height=0.5]; ");
     graph->addln();
     int contador = 0;
     string nodos, enlaces, enlacesIverso;
@@ -428,7 +428,63 @@ void ListaDoble<T>::reportStringS(string nameDot)
     graph->addln(enlaces);
     graph->addln(enlacesIverso);
     graph->addln(graph->end());
-    graph->dotGraphGenerator("LitaDoble", graph->getDotSource());
+    graph->dotGraphGenerator(nameDot, graph->getDotSource());
+}
+
+//devuelve el dato almacenado nodo por nodo con recorrido hacia adelante para una lista no circular
+template <typename T>
+T ListaDoble<T>::getDataNext()
+{
+    static Node<T> *tempN = primero;
+    T tempData;
+    if (tempN != nullptr)
+    {
+        tempData = tempN->getData();
+        tempN = tempN->getNext();
+        return tempData();
+    }
+    else
+    {
+        tempN = primero;
+    }
+}
+
+//devuelve el dato almacenado en el nodo con recorrido hacia atras en en una lista no cicurlar
+template <typename T>
+T ListaDoble<T>::getDataBack()
+{
+    static Node<T> *tempN = ultimo;
+    T tempData;
+    if (tempN != nullptr)
+    {
+        tempData = tempN->getData();
+        tempN = tempN->getBehind();
+        return tempData;
+    }
+    else
+    {
+        tempN = ultimo;
+    }
+}
+
+//devuelve el dato guardado en el nodo dentro de una lista circular dato por dato
+template <typename T>
+T ListaDoble<T>::getDataC()
+{
+    static Node<T> *tempN = primero;
+    T tempData;
+    if (tempN != ultimo)
+    {
+        tempData = tempN->getData();
+        tempN = tempN->getNext();
+        return tempData;
+    }
+    else if (tempN == ultimo)
+    {
+        tempData = tempN->getData();
+        tempN = tempN->getNext();
+        return tempData;
+    }
 }
 
 //destructor de la lista

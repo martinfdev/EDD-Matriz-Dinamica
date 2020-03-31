@@ -1,0 +1,19 @@
+digraph G {
+rankdir=LR;
+node [shape=record, color=blue]; 
+
+node0 [label="{Antonio|<b>}"];
+node1 [label="{Carlos|<b>}"];
+node2 [label="{Eduardo|<b>}"];
+node3 [label="{Heidy|<b>}"];
+node4 [label="{Rodrigo|<b>}"];
+node5 [shape=point];
+
+node0:b:c -> node1:c [arrowtail=dot, dir=both,tailclip=false];
+node1:b:c -> node2:c [arrowtail=dot, dir=both,tailclip=false];
+node2:b:c -> node3:c [arrowtail=dot, dir=both,tailclip=false];
+node3:b:c -> node4:c [arrowtail=dot, dir=both,tailclip=false];
+node4:b:c -> node5:c [arrowtail=dot, dir=both,tailclip=false];
+
+}
+

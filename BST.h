@@ -9,6 +9,7 @@
 #include "NodeT.cpp"
 #include "Jugador.h"
 #include "Graphviz.h"
+#include "Lista.h"
 
 
 using namespace std;
@@ -27,6 +28,7 @@ public:
     void report();
 
 private:
+    Lista<string> *lista;
     Graphviz *graph;
     NodeT<Jugador*>* root;
     NodeT<Jugador*>* insertRec(NodeT<Jugador*>*, string);//insercion de forma recursiva

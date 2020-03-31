@@ -104,7 +104,7 @@ void BST::inorderRec(NodeT<Jugador *> *root)
     if (root != nullptr)
     {
         inorderRec(root->getLeft());
-        cout << root->getData()->getName() << "-->";
+        lista->add_endS(root->getData()->getName());        
         inorderRec(root->getRight());
     }
 }
@@ -115,7 +115,8 @@ void BST::preorderRec(NodeT<Jugador *> *root)
 {
     if (root != nullptr)
     {
-        cout << root->getData()->getName() << "-->";
+        //cout << root->getData()->getName() << "-->";
+        lista->add_endS(root->getData()->getName());
         preorderRec(root->getLeft());
         preorderRec(root->getRight());
     }
@@ -129,7 +130,7 @@ void BST::postorderRec(NodeT<Jugador *> *root)
     {
         postorderRec(root->getLeft());
         postorderRec(root->getRight());
-        cout << root->getData()->getName() << "-->";
+        lista->add_endS(root->getData()->getName());
     }
 }
 
@@ -150,25 +151,29 @@ NodeT<Jugador *> *BST::search(string data)
 //metodo publico para recorrido pre-orden
 //template<typename T>
 void BST::preorder()
-{
+{   lista = new Lista<string>();
     preorderRec(root);
-    cout << "\n"; //salto de linea cuando se sale recorrido
+    lista->graphStringS("PreOrden");
+    
 }
 
 //metodo publico para recorrido inorder
 //template<typename T>
 void BST::inorder()
 {
+    lista = new Lista<string>();
     inorderRec(root);
-    cout << "\n"; //salto de linea cuando se recorrido
+    lista->graphStringS("Inorden");
 }
 
 //metodo publico para recorrido inorder
 //emplate<typename T>
 void BST::postorder()
 {
+    lista = new Lista<string>();
     postorderRec(root);
-    cout << "\n"; //salto de linea cuando se sale del recorrido
+    lista->graphStringS("PostOrden");
+   
 }
 
 //metodo privado para graficar el arbol

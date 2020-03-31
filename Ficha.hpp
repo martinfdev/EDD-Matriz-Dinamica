@@ -2,24 +2,25 @@
  * File:   Ficha.hpp
  * Author: pedro
  */
+#include <string>
 class Ficha
 {
 private:
     int puntaje, cantidad;
-    char letra;
+    string letra;
 public:
     Ficha();
-    Ficha(int, int, char);
+    Ficha(int, int, string);
     void setCantidad(int);
     int getPuntaje();
     int getCantidad(); 
-    char getLetra();
+    string getLetra();
     ~Ficha();
 };
 
 Ficha::Ficha(){}
 
-Ficha::Ficha(int puntaje_, int cantidad_, char letra_)
+Ficha::Ficha(int puntaje_, int cantidad_, string letra_)
 {
     puntaje = puntaje_;
     cantidad = cantidad_;
@@ -31,7 +32,7 @@ void Ficha::setCantidad(int cantidad_){
 }
 
 int Ficha::getCantidad(){return cantidad;}
-char Ficha::getLetra(){return letra;}
+string Ficha::getLetra(){return letra;}
 int Ficha::getPuntaje(){return puntaje;}
 
 

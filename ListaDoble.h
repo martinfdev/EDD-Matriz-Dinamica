@@ -38,6 +38,9 @@ public:
     void reportStringC(string);
     void reportStringS(string);
     void reportIntS(string);
+    T getDataBack();
+    T getDataNext();
+    T getDataC();
     virtual ~ListaDoble();
 
 private:

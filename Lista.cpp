@@ -9,6 +9,7 @@ Lista<T>::Lista()
     sizeL = 0;
     m_head = NULL;
     m_last = NULL;
+    graph = new Graphviz();
 }
 
 //devuelve el tamanio de la lista
@@ -80,14 +81,18 @@ void Lista<T>::add_sort(T data_)
 }
 
 //agregar al final de una lista cicular
-template<typename T>
-void Lista<T>::add_endC(T data_){
-    Node<T>* new_node = new Node<T>(data_);
-    if (m_last == nullptr) {
+template <typename T>
+void Lista<T>::add_endC(T data_)
+{
+    Node<T> *new_node = new Node<T>(data_);
+    if (m_last == nullptr)
+    {
         m_last = new_node;
         m_last->setNext(m_last);
         sizeL++;
-    } else {
+    }
+    else
+    {
         new_node->setNext(m_last->getNext());
         m_last->setNext(new_node);
         m_last = new_node;
@@ -106,7 +111,7 @@ void Lista<T>::del_headS()
     }
     else
     {
-        cout<<"Lista vacia\n";
+        cout << "Lista vacia\n";
     }
 }
 
@@ -193,81 +198,110 @@ void Lista<T>::del_all()
 
 // Imprimir la Lista
 template <typename T>
-void Lista<T>::printS()
+void Lista<T>::graphStringS(string nameDot)
 {
+    Graphviz *graph = new Graphviz();
+    graph->addln(graph->start_graph());
+    graph->addln("rankdir=LR;");
+    graph->addln("node [shape=record, color=blue]; ");
+    graph->addln();
+    int contador = 0;
+    string nodos, enlaces;
     Node<T> *temp = m_head;
     if (!m_head)
     {
-        cout << "La Lista está vacía " << endl;
+        nodos =  "La Lista está vacía ";
     }
     else
     {
         while (temp != nullptr)
         {
-            cout << temp->getData() << "-->";
+            if (contador < sizeL - 1)
+            {
+                nodos = nodos + "node" + to_string(contador) + " [label=\"{" + temp->getData() + "|<b>}\"];\n";
+                enlaces = enlaces + "node" + to_string(contador) + ":b:c -> node" + to_string(contador + 1) + ":c [arrowtail=dot, dir=both,tailclip=false];\n";
+            }else
+            {
+                nodos = nodos + "node" + to_string(contador) + " [label=\"{" + temp->getData() + "|<b>}\"];\n";
+                nodos = nodos + "node"+to_string(contador+1)+" [shape=point];\n";
+                enlaces = enlaces + "node" + to_string(contador) + ":b:c -> node" + to_string(contador + 1) + ":c [arrowtail=dot, dir=both,tailclip=false];\n";
+            }
+            
+            contador++;
             temp = temp->getNext();
         }
-        cout << "\n";
     }
+    graph->addln(nodos);
+    graph->addln(enlaces);
+    graph->addln(graph->end());
+    graph->dotGraphGenerator(nameDot, graph->getDotSource());
 }
 //iprimir una lista circular
-template<typename T>
-void Lista<T>::printC() {
-    Node<T>* aux = m_last->getNext();
-    if (!isEmptyC()) {
-        do {
-            std::cout << aux->getData() <<"==>";
+template <typename T>
+void Lista<T>::graphStringC(string nameDot)
+{
+    Node<T> *aux = m_last->getNext();
+    if (!isEmptyC())
+    {
+        do
+        {
+            std::cout << aux->getData() << "==>";
             aux = aux->getNext();
         } while (aux != m_last->getNext());
-    } else {
+    }
+    else
+    {
         std::cout << "Lista Vacia";
     }
-    cout<<"\n";
+    cout << "\n";
 }
 
 // metod privado para busqueda en general
-template<typename T>
-Node<T>* Lista<T>::searchAll(Node<T>* n, T data_)
+template <typename T>
+Node<T> *Lista<T>::searchAll(Node<T> *n, T data_)
 {
-    if (n==m_head)
+    if (n == m_head)
     {
-        while (n!=nullptr)
+        while (n != nullptr)
         {
-            if (n->getData()==data_)
+            if (n->getData() == data_)
             {
                 return n;
             }
             n = n->getNext();
         }
-        cout<<"No se encontro el dato\n";
-        return nullptr; 
-    }else if (n == m_last)
+        cout << "No se encontro el dato\n";
+        return nullptr;
+    }
+    else if (n == m_last)
     {
-        Node<T>* aux = m_last->getNext();
+        Node<T> *aux = m_last->getNext();
         do
         {
             if (aux->getData() == data_)
             {
-               return aux;
+                return aux;
             }
             aux = aux->getNext();
-        } while (aux!= m_last->getNext());
-        cout<<"No existe el dato\n";
+        } while (aux != m_last->getNext());
+        cout << "No existe el dato\n";
         return nullptr;
     }
 }
 
 //metodo publico para buscar
-template<typename T>
-Node<T>* Lista<T>::search(T data_){
-    if (m_head!=nullptr)
+template <typename T>
+Node<T> *Lista<T>::search(T data_)
+{
+    if (m_head != nullptr)
     {
         searchAll(m_head, data_);
-    }else if (m_last!=nullptr )
+    }
+    else if (m_last != nullptr)
     {
         searchAll(m_last, data_);
     }
-} 
+}
 
 // Ordenar de manera ascendente
 //template<typename T>
@@ -306,8 +340,9 @@ bool Lista<T>::isEmptyS()
 }
 
 //devuelve un true si la lista ciruclar esta vacia
-template<typename T>
-bool Lista<T>::isEmptyC(){
+template <typename T>
+bool Lista<T>::isEmptyC()
+{
     if (m_last == nullptr)
     {
         return true;
@@ -316,8 +351,9 @@ bool Lista<T>::isEmptyC(){
 }
 
 //insertar lista simpre ordenadamente de mayor a menor
-template<typename T>
-void Lista<T>::add_sortInvert(T data_){
+template <typename T>
+void Lista<T>::add_sortInvert(T data_)
+{
 
     Node<T> *new_node = new Node<T>(data_);
     Node<T> *temp = m_head;
@@ -346,6 +382,20 @@ void Lista<T>::add_sortInvert(T data_){
     sizeL++;
 }
 
+//devuelve el tipo de dato almacenado dentro de la lista en la cabecera uno por uno
+template<typename T>
+T Lista<T>::getData(){
+    static Node<T>* tempN = m_head;
+    T temp;
+    if (tempN!=nullptr)
+    {
+       temp = tempN->getData();
+       tempN = tempN->getNext();
+       return temp;
+    }else{
+        tempN = m_head;
+    }
+}
 
 template <typename T>
 Lista<T>::~Lista() {}

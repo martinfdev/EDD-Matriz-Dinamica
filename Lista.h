@@ -9,6 +9,7 @@
 #include <string>
 #include <stdlib.h>
 #include "Node.h"
+#include "Graphviz.h"
 
 using namespace std;
 
@@ -23,16 +24,18 @@ class Lista
         void add_endC(T);
         void del_headS();
         void del_all();
-        void printS();
-        void printC();
+        void graphStringS(string);
+        void graphStringC(string);
         Node<T>* search(T);
         int size(){return sizeL;}
         bool isEmptyS();
         bool isEmptyC();
         void add_sortInvert(T);
+        T getData();
         ~Lista();
 
     private:
+        Graphviz *graph;
         Node<T> *m_head;
         Node<T> *m_last;
         int sizeL;
