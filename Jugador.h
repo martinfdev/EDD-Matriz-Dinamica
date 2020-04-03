@@ -5,14 +5,13 @@
 #ifndef JUGADOR_H
 #define JUGADOR_H
 #include "Lista.h"
-#include "Lista.cpp"
 
 using namespace std;
 
 class Jugador
 {
 private:
-    Lista<int> *score;
+    Lista<int> score;
     string name;
 
 public:
@@ -21,7 +20,9 @@ public:
     //void insertScore(int);
     void setName(string);
     string getName();
-    Lista<int> *getScore();
+    Lista<int> getScore();
+    void setScore(int );
+    int getScoreMax();
     ~Jugador();
 };
 #endif //JUGADOR_H

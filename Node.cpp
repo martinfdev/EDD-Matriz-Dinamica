@@ -43,3 +43,7 @@ template<typename T>
 T Node<T>::getData(){
     return data;
 }
+
+//delete
+template<typename T>
+Node<T>::~Node(){}

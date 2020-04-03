@@ -1,4 +1,7 @@
-
+/* 
+ * File:   MatrizDispersa.h
+ * Author: pedro
+ */
 #ifndef MATRIZDISPERSA_H
 #define MATRIZDISPERSA_H
 #include "NodeM.h"

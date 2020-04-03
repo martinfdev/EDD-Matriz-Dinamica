@@ -22,7 +22,7 @@ class Lista
         void add_endS(T);
         void add_sort(T);
         void add_endC(T);
-        void del_headS();
+        T del_headS();
         void del_all();
         void graphStringS(string);
         void graphStringC(string);
@@ -32,6 +32,13 @@ class Lista
         bool isEmptyC();
         void add_sortInvert(T);
         T getData();
+        T getDataC();
+        T getDataFirst();
+        void invert();
+        T del_by_position(int );
+        void del_by_data(T);
+        void sort();
+        
         ~Lista();
 
     private:

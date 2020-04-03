@@ -9,8 +9,6 @@
 #include <iostream>
 #include <cstring>
 #include <jsoncpp/json/json.h>
-#include "ListaDoble.h"
-#include "ListaDoble.cpp"
 
 using std::ifstream;
 using std::ios;
@@ -21,8 +19,9 @@ File::File()
 {
 }
 
-File::File(ListaDoble<string>* dictionary_){
+File::File(ListaDoble<string>* dictionary_, Config *configI_){
     dictionary = dictionary_;
+    configI = configI_;
 }
 
 bool File::createOrWriteFile(string nameFile, string textoAescribir)
@@ -50,7 +49,7 @@ string File::ReadFile(string pathFile)
     if (fileIn.fail())
     {
         std::cout << "Error en la lectura del archivo\n";
-        return 0;
+        return "";
     }
     else
     {
@@ -65,27 +64,39 @@ string File::ReadFile(string pathFile)
     return texto;
 }
 
-void File::readJson(string json)
+bool File::readJson(string json)
 {
+    
     Json::Reader r;
     Json::Value objJson;
     r.parse(json, objJson);
     // std::cout<<objJson;
-    const Json::Value &dimension = objJson["dimension"];
-    // std::cout<<"Dimension\t"<<dimension<<"\n";
+    //botiene el valor de dimension
+    int dimension = objJson["dimension"].asInt();
+    configI->setDimension(dimension);
+    
+    //obtiene el valor de las casillas
     const Json::Value &casillas = objJson["casillas"];
     // std::cout<<"casillas"<<"\n";
+    //obtiene el valor de las casillas dobles
     const Json::Value &dobles = casillas["dobles"];
     //std::cout<<"dobles"<<"\n";
     for (int i = 0; i < dobles.size(); i++)
     {
+        int x = dobles[i]["x"].asInt();
+        int y = dobles[i]["y"].asInt();
+        configI->setCasillaE(x, y, 2);
         //   std::cout << "\nposcion x: " << dobles[i]["x"].asString()<<"\t";
         //   std::cout << "\nposcion y: " << dobles[i]["y"].asString()<<"\n";
     }
+    //obtiene el valor de las casillas triples
     const Json::Value &triples = casillas["triples"];
     // std::cout<<"triples"<<"\n";
     for (int i = 0; i < triples.size(); i++)
     {
+        int x = triples[i]["x"].asInt();
+        int y = triples[i]["y"].asInt();
+        configI->setCasillaE(x,y,3);
         //  std::cout << "\nposcion x: " << triples[i]["x"].asString()<<"\t";
         //  std::cout << "\nposcion y: " << triples[i]["y"].asString()<<"\n";
     }
@@ -96,6 +107,7 @@ void File::readJson(string json)
         //std::cout << "\npalabra: " << diccionario[i]["palabra"].asString() << "\n";
         dictionary->insertarUltimoC(diccionario[i]["palabra"].asString());
     }
+    return r.good();
 }
 
 bool File::dotGraphGenerator(string namefile, string textGraphviz)

@@ -4,89 +4,123 @@
  */
 #include <iostream>
 #include "Init.h"
+#include "NodeT.h"
+#include "NodeT.cpp"
+#include "NodeM.h"
+#include "NodeM.cpp"
+#include "Node.h"
+#include "Node.cpp"
+#include "Config.h"
+#include "Lista.h"
+#include "Lista.cpp"
 #include "ListaDoble.h"
 #include "ListaDoble.cpp"
-#include "Lista.h"
-#include "ncurses.h"
-//#include "Lista.cpp"
-//#include "MatrizDispersa.h"
-#include "Jugador.h"
-#include "Jugador.cpp"
+#include "MatrizDispersa.h"
+#include "MatrizDispersa.cpp"
+#include "Graphviz.h"
+#include "Graphviz.cpp"
 #include "BST.h"
 #include "BST.cpp"
-//#include "Ficha.hpp"
-#include "Reporte.hpp"
+#include "Jugador.h"
+#include "Jugador.cpp"
+#include "CasillaE.h"
+#include "CasillaE.cpp"
+#include "Config.h"
+#include "Config.cpp"
+#include "File.h"
+#include "File.cpp"
 #include "Ventana.h"
 #include "Ventana.cpp"
+#include "Ficha.h"
+#include "Ficha.cpp"
+#include "Reporte.h"
+#include "Reporte.cpp"
+#include <stdlib.h>
+#include <time.h>
+
 
 Init::Init()
 {
-    //BST *jugadores = new BST();
-    //jugadores->insert("Heidy");
-    //jugadores->insert("Carlos");
-    //jugadores->insert("Rodrigo");
-    //jugadores->insert("Antonio");
-    //jugadores->insert("Eduardo");
-    //jugadores->insert("Pamela");
-    //jugadores->insert("User80");
-    //jugadores->insert("Juan");
-    //jugadores->insert("Cascabel");
-    //jugadores->insert("Endoriano");
-    //jugadores->insert("Pau");
-    //jugadores->insert("Lety");
-    //jugadores->insert("Andres");
-    //jugadores->insert("Boruto");
-    //jugadores->insert("Ximena");
-    //jugadores->preorder();
-    //jugadores->inorder();
-    //jugadores->postorder();
-    //jugadores->report();
-    //cout<<jugadores->search("Eduardo")->getData()->getName()<<"\n";
-
-    //ListaDoble<string> *diccionario = new ListaDoble<string>();
-    //File * readJson = new File(diccionario);
-    //readJson->readJson(readJson->ReadFile("configGame.json"));
-    //diccionario->reportStringC("Rdiccionario");
-    //for (int i = 0; i < diccionario->getSize(); i++)
-    //{
-    //    cout<<diccionario->getDataC()<<"\n";
-    //}
-
-    //Lista<Ficha *> *listaFicha = new Lista<Ficha *>();
-    //listaFicha->add_endS(new Ficha(1, 12, "A"));
-    //listaFicha->add_endS(new Ficha(3, 2, "B"));
-    //listaFicha->add_endS(new Ficha(3, 4, "C"));
-    //listaFicha->add_endS(new Ficha(2, 5, "D"));
-    //listaFicha->add_endS(new Ficha(1, 12, "E"));
-    //listaFicha->add_endS(new Ficha(4, 1, "F"));
-    //listaFicha->add_endS(new Ficha(2, 2, "G"));
-    //listaFicha->add_endS(new Ficha(4, 2, "H"));
-    //listaFicha->add_endS(new Ficha(1, 6, "I"));
-    //listaFicha->add_endS(new Ficha(8, 1, "J"));
-    //listaFicha->add_endS(new Ficha(1, 12, "K"));
-    //listaFicha->add_endS(new Ficha(1, 4, "L"));
-    //listaFicha->add_endS(new Ficha(3, 2, "M"));
-    //listaFicha->add_endS(new Ficha(1, 5, "N"));
-    //listaFicha->add_endS(new Ficha(8, 1, "Ñ"));
-    //listaFicha->add_endS(new Ficha(1, 9, "O"));
-    //listaFicha->add_endS(new Ficha(3, 2, "P"));
-    //listaFicha->add_endS(new Ficha(5, 1, "Q"));
-    //listaFicha->add_endS(new Ficha(1, 5, "R"));
-    //listaFicha->add_endS(new Ficha(1, 6, "S"));
-    //listaFicha->add_endS(new Ficha(1, 4, "T"));
-    //listaFicha->add_endS(new Ficha(1, 5, "U"));
-    //listaFicha->add_endS(new Ficha(4, 1, "V"));
-    //listaFicha->add_endS(new Ficha(1, 12, "W"));
-    //listaFicha->add_endS(new Ficha(8, 1, "X"));
-    //listaFicha->add_endS(new Ficha(4, 1, "Y"));
-    //listaFicha->add_endS(new Ficha(10, 1, "Z"));
-    //
+    Config *conf = new Config();
+    BST *jugadores = new BST();
+    ListaDoble<string> *diccionario = new ListaDoble<string>();
+    MatrizDispersa *matriz = new MatrizDispersa();
+    lFichas = new Lista<Ficha *>();
+    generarFichas();
+    
+    //f = new File(diccionario, conf);
+    //path_config_json();
+    //Ventana win = Ventana(diccionario, jugadores, conf, lFichas, matriz);
+    //win.menuGame();
+    
+    
 
     //Reporte *repor = new Reporte();
-    //repor->ReporteFichas(listaFicha);
+    //repor->ReporteFichas(lFichas);
 
-    Ventana *ventan = new Ventana();
-    ventan->menuGame();
+    //Ventana *ventan = new Ventana(diccionario, jugadores);
+    //ventan->menuGame();
+    //jugadores->report();
+
+    //f->readJson(f->ReadFile("configG.json"));
+    //cout << diccionario->getDataC() << "\n";
+    //conf->setDimension(3);
+    //cout << "Dimension: " << conf->getDimesion() << "\n";
+    //conf->setCasillaE(0,0,2);
+    //conf->setCasillaE(3,5,3);
+    //Lista<CasillaE *> *temp = conf->getCasillaE();
+    //for (int i = 0; i < temp->size(); i++)
+    //{
+    //    CasillaE *tmp = temp->getDataC();
+    //    cout << "Casillas Especiales\t X : " << tmp->getX() << "\tY : " << tmp->getY() << "\tPuntaje: " << tmp->getPuntaje() << "\n";
+    //}
+}
+
+//carga el archivo de configuracion antes empezar
+void Init::path_config_json()
+{
+
+    cout << "Escriba la ruta del Archivo de configuracion :\n\n";
+    string path;
+    cin >> path;
+    if (f->readJson(f->ReadFile(path)))
+    {
+        return;
+    }
+    else
+        path_config_json();
+}
+
+//genera las fichas predeterminandas del juego
+void Init::generarFichas()
+{
+    lFichas->add_endS(new Ficha(1, 12, "A"));
+    lFichas->add_endS(new Ficha(3, 2, "B"));
+    lFichas->add_endS(new Ficha(3, 4, "C"));
+    lFichas->add_endS(new Ficha(2, 5, "D"));
+    lFichas->add_endS(new Ficha(1, 12, "E"));
+    lFichas->add_endS(new Ficha(4, 1, "F"));
+    lFichas->add_endS(new Ficha(2, 2, "G"));
+    lFichas->add_endS(new Ficha(4, 2, "H"));
+    lFichas->add_endS(new Ficha(1, 6, "I"));
+    lFichas->add_endS(new Ficha(8, 1, "J"));
+    lFichas->add_endS(new Ficha(1, 12, "K"));
+    lFichas->add_endS(new Ficha(1, 4, "L"));
+    lFichas->add_endS(new Ficha(3, 2, "M"));
+    lFichas->add_endS(new Ficha(1, 5, "N"));
+    lFichas->add_endS(new Ficha(8, 1, "Ñ"));
+    lFichas->add_endS(new Ficha(1, 9, "O"));
+    lFichas->add_endS(new Ficha(3, 2, "P"));
+    lFichas->add_endS(new Ficha(5, 1, "Q"));
+    lFichas->add_endS(new Ficha(1, 5, "R"));
+    lFichas->add_endS(new Ficha(1, 6, "S"));
+    lFichas->add_endS(new Ficha(1, 4, "T"));
+    lFichas->add_endS(new Ficha(1, 5, "U"));
+    lFichas->add_endS(new Ficha(4, 1, "V"));
+    lFichas->add_endS(new Ficha(1, 12, "W"));
+    lFichas->add_endS(new Ficha(8, 1, "X"));
+    lFichas->add_endS(new Ficha(4, 1, "Y"));
+    lFichas->add_endS(new Ficha(10, 1, "Z"));
 }
 
 Init::~Init() {}

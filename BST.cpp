@@ -2,10 +2,10 @@
  * File:   BST.h
  * Author: pedro
  */
+#include "BST.h"
 #include <stdlib.h>
 #include <string>
 #include <iostream>
-#include "BST.h"
 
 using namespace std;
 
@@ -14,9 +14,12 @@ using namespace std;
 BST::BST()
 {
     graph = new Graphviz();
+    sizeU = 0;
+    ListaCuser = new Lista<Jugador*>();
+    repeatData = false;
 }
 
-//metodo para busacar en el arbol
+//metodo para busacar en el arbol privado
 //template <typename T>
 NodeT<Jugador *> *BST::searchIn(NodeT<Jugador *> *root, string data)
 {
@@ -35,12 +38,15 @@ NodeT<Jugador *> *BST::searchIn(NodeT<Jugador *> *root, string data)
 
 //metodo privado para insertar un nodo de forma recursiva
 //template <typename T>
-NodeT<Jugador *> *BST::insertRec(NodeT<Jugador *> *root, string data)
+NodeT<Jugador*> *BST::insertRec(NodeT<Jugador *> *root, string data)
 {
     /*si el arbol esta vacio retorna un nuevo nodo*/
     if (root == nullptr)
     {
-        root = new NodeT<Jugador *>(new Jugador(data));
+        Jugador *tempData = new Jugador(data);
+        root = new NodeT<Jugador *>(tempData);
+        ListaCuser->add_endC(tempData);
+        sizeU++;
     } /*de lo contrario, recorrer el arbol*/
     else if (data < root->getData()->getName())
     {
@@ -52,7 +58,8 @@ NodeT<Jugador *> *BST::insertRec(NodeT<Jugador *> *root, string data)
     }
     else
     {
-        cout << data << " este dato esta repetido\n";
+        repeatData = true;
+        //cout << data << " este dato esta repetido\n";
         // throw new exception_ptr;
     }
 
@@ -138,14 +145,15 @@ void BST::postorderRec(NodeT<Jugador *> *root)
 //template<typename T>
 void BST::insert(string data)
 {
+    repeatData = false;
     root = insertRec(root, data);
 }
 
 //metodo publico para buscar
 //template<typename T>
-NodeT<Jugador *> *BST::search(string data)
+Jugador *BST::search(string data)
 {
-    return searchIn(root, data);
+    return searchIn(root, data)->getData();
 }
 
 //metodo publico para recorrido pre-orden
@@ -217,6 +225,17 @@ void BST::report()
     graph->addln(graph->end());
     graph->dotGraphGenerator("Arbol", graph->getDotSource());
 }
+
+//metodo que devuelve el tamanio de los nodos en el arbol
+int BST::getSize(){return sizeU;}
+
+//metodo que devuelve una lista simple circular de jugadores
+Lista<Jugador*> *BST::listaU(){
+    return ListaCuser;
+}
+
+//devuelve un true si el dato esta repetido
+bool BST::dataExist(){return repeatData;}
 
 //destructor
 //template <typename T>

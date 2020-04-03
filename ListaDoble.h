@@ -8,7 +8,6 @@
 #include <string>
 #include <stdlib.h>
 #include "Node.h"
-#include "Node.cpp"
 #include "Graphviz.h"
 
 using std::string;

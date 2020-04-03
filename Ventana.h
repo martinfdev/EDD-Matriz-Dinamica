@@ -2,41 +2,54 @@
  * File:   Ventana.h
  * Author: pedro
  */
+
 #ifndef VENTANA_H
 #define VENTANA_H
-#define WELL_HEIGHT 22
-#define WELL_WIDTH 32
-#define NO_LEVELS 10
-#define NEXT_HEIGHT 10
-#define NEXT_WIDTH 20
-#define SCORE_HEIGHT 14
-#define SCORE_WIDTH 32
-
-#define CONTROL_UP 'i'
-#define CONTROL_DOWN 'k'
-#define CONTROL_LEFT 'j'
-#define CONTROL_RIGHT 'l'
-#define CONTROL_NEXT 's'
-#define CONTROL_BACK 'a'
-
-#define NITEMS 6
-#define NO_LEVELS 10
 #include <ncurses.h>
+#include <cstring>
 #include <string>
+#include "Lista.h"
+#include "BST.h"
+#include "Jugador.h"
+#include "ListaDoble.h"
+#include "Config.h"
+#include "Ficha.h"
+#include "MatrizDispersa.h"
+#include "alldefine.h"
 
 class Ventana
 {
 private:
-    int GAME_HEIGHT = WELL_HEIGHT + 4, GAME_WIDTH = WELL_WIDTH + NEXT_WIDTH + 4 + 20;
+    Lista<Ficha*> *lFichas;
+    MatrizDispersa *matriz;
+    int pointsP1, pointsP2;
+    Config *conf;
+    Lista<Jugador *> *lscoreJugador;
+    Lista<int> *listaScoreGeneral;
+    Lista<Ficha *> *colaFicha;
     WINDOW *menuw, *miw, *titlew;
-    WINDOW *gamew, *wellw, *statw, *nextw, *instw, *lastw, *scorew;
+    WINDOW *gamew, *wellw, *statw, *nextw, *wp2, *wp1, *addpw;
+    int GAME_HEIGHT = WELL_HEIGHT + 4, GAME_WIDTH = WELL_WIDTH + NEXT_WIDTH + 4 + 20;
     void print_menu(WINDOW *);
-    void disp_score(char *message);
+    void score_general(char *message);
     int menu();
     void initialise_colors();
     void init_windows();
+    ListaDoble<string> *diccionario; //lista doblemente ciruclar enlazada para el diccionario de palabra de la entrad
+    BST *arbolJugadores;
+    Jugador *player1, *player2;
+    int addPlayer();
+    void play_game();
+    void update_next();
+    void update_stat();
+    void update_wp2();
+    void update_well();
+    void draw_block(WINDOW *win, int y, int x, int type, int orient, char);
+    void random();
+
 public:
     Ventana(/* args */);
+    Ventana(ListaDoble<string> *, BST *jugador, Config *, Lista<Ficha*> *, MatrizDispersa *);
     void menuGame();
     ~Ventana();
 };
