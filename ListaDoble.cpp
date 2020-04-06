@@ -13,6 +13,9 @@ using namespace std;
 template <typename T>
 ListaDoble<T>::ListaDoble()
 {
+    size = 0;
+    primero = ultimo = nullptr;
+    
 }
 //metodo privado que espera como parametro un nodo n y el dato insertando al inicio de la lista
 template <typename T>
@@ -84,6 +87,7 @@ void ListaDoble<T>::insertarC(Node<T> *n, T data, bool inicio)
         primero = nuevo;
         primero->setNext(nuevo);
         primero->setBehind(nuevo);
+        size++;
     }
     else
     {
@@ -92,11 +96,13 @@ void ListaDoble<T>::insertarC(Node<T> *n, T data, bool inicio)
         nuevo->setBehind(n->getBehind());
         n->setBehind(nuevo);
         nuevo->setNext(n);
+        size++;
     }
     //inicio verdadeto inserta al principio de la lista
     if (inicio)
     {
         primero = nuevo;
+        size++;
     }
 }
 
@@ -132,8 +138,9 @@ void ListaDoble<T>::insertarUltimoC(T data)
 
 //metodo privado que espera como parameto un nodo n para eliminarlo de la lista
 template <typename T>
-void ListaDoble<T>::borrarNodo(Node<T> *n)
+T ListaDoble<T>::borrarNodo(Node<T> *n)
 {
+    T tempData;
     //la lista esta vacia
     if (isEmpty())
     {
@@ -142,30 +149,46 @@ void ListaDoble<T>::borrarNodo(Node<T> *n)
     //solo existe un nodo
     else if (primero == ultimo)
     {
+        tempData = primero->getData();
+        Node<T>* tempN= primero;
         primero = NULL;
         ultimo = NULL;
         size--;
+        delete tempN;
+        return tempData;
     }
     //eliminar al inicio
     else if (primero == n)
     {
+        tempData = primero->getData();
+        Node<T>* tempN = primero;
         primero = primero->getNext();
         primero->setBehind(NULL);
         size--;
+        delete tempN;
+        return tempData;
     }
     //eliminar al final
     else if (ultimo == n)
     {
+        tempData = ultimo->getData();
+        Node<T>* tempN = ultimo;
         ultimo = ultimo->getBehind();
         ultimo->setNext(NULL);
         size--;
+        delete tempN;
+        return tempData();
     }
     else
     {
         //eliminar en medio
+        tempData = n->getData();
+        Node<T>* tempN =  n;
         n->getBehind()->setNext(n->getNext());
         n->getNext()->setBehind(n->getBehind());
         size--;
+        delete tempN;
+        return tempData;
     }
 }
 
@@ -173,23 +196,23 @@ void ListaDoble<T>::borrarNodo(Node<T> *n)
  el nodo para eliminarlo de la lista
 */
 template <typename T>
-void ListaDoble<T>::borrarParametro(T data)
+T ListaDoble<T>::borrarParametro(T data)
 {
-    borrarNodo(buscar(data));
+    return borrarNodo(buscar(data));
 }
 
 /*metodo publico que elimina al inicio de la lista*/
 template <typename T>
-void ListaDoble<T>::borrarInicio()
+T ListaDoble<T>::borrarInicio()
 {
-    borrarNodo(primero);
+    return  borrarNodo(primero);
 }
 
 /*metodo publico que elimina al final de la lista*/
 template <typename T>
-void ListaDoble<T>::borrarFinal()
+T ListaDoble<T>::borrarFinal()
 {
-    borrarNodo(ultimo);
+    return borrarNodo(ultimo);
 }
 
 //meto que busca en la lista por parametro y devuelve un nodo
@@ -437,15 +460,17 @@ T ListaDoble<T>::getDataNext()
 {
     static Node<T> *tempN = primero;
     T tempData;
-    if (tempN != nullptr)
+    if (tempN->getNext() != nullptr)
     {
         tempData = tempN->getData();
         tempN = tempN->getNext();
-        return tempData();
+        return tempData;
     }
     else
     {
+        tempData = tempN->getData();
         tempN = primero;
+        return tempData;
     }
 }
 

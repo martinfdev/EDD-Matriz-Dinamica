@@ -15,11 +15,13 @@ using namespace std;
 class Reporte
 {
 private:
+    int iterador;
     Graphviz *graph;
 
 public:
     Reporte(/* args */);
-    void ReporteFichas(Lista<Ficha *> *listaFichas);
+    void ReporteFichasCola(Lista<Ficha *> *listaFichas);
+    void ReporteFichasUsuario(ListaDoble<Ficha *> *lisFichasUsuario, string);
     ~Reporte();
 };
 #endif //REPORTE_H

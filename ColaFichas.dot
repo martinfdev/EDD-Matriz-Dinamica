@@ -1,0 +1,5 @@
+digraph G {
+node[shape=record]
+struct [label="{ Ñ x 8pts |O x 1pts |P x 3pts |Q x 5pts |R x 1pts |S x 1pts |T x 1pts |U x 1pts |V x 4pts |W x 1pts |X x 8pts |Y x 4pts |Z x 10pts}"];
+}
+

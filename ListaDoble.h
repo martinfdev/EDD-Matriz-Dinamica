@@ -21,12 +21,12 @@ public:
     void insertarUltimo(T);
     void insertarUltimoC(T);
     void InsertarPrimeroC(T);
-    void borrarParametro(T);
+    T borrarParametro(T);
     void insertarPorPosicion(); //pendiente de impelementar
     void eliminarPorPosicion(); //pendiente de implementar
     int getSize();
-    void borrarInicio();
-    void borrarFinal();
+    T borrarInicio();
+    T borrarFinal();
     void showC();
     Node<T>* buscarC(T);
     Node<T> *buscar(T);
@@ -48,7 +48,7 @@ private:
     Node<T> *ultimo;
     void insertarInicio(Node<T> *, T);
     void insertarFinal(Node<T> *, T);
-    void borrarNodo(Node<T> *);
+    T borrarNodo(Node<T> *);
     void insertarC(Node<T> *, T, bool);
 };
 

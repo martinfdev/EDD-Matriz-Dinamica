@@ -47,33 +47,46 @@ Init::Init()
     MatrizDispersa *matriz = new MatrizDispersa();
     lFichas = new Lista<Ficha *>();
     generarFichas();
-    
-    //f = new File(diccionario, conf);
-    //path_config_json();
+    f = new File(diccionario, conf);
+    path_config_json();
     //Ventana win = Ventana(diccionario, jugadores, conf, lFichas, matriz);
     //win.menuGame();
+    Jugador *j1 = new Jugador("Juan");
+    Jugador *j2 = new Jugador("Pedro");
+    int x = lFichas->size();
+    for (int  i = 0; i < x; i++)
+    {
+        if (i<7)
+        {
+            j1->setFicha(lFichas->del_headS());
+        }else
+            break;
+    }
+    cout<<lFichas->size()<<"\n";
+    cout<<j1->getFicha()->getSize()<<"\n";
+  
+    int k = lFichas->size();
+    cout<<k<<"\n";
+    for (int i = 0; i < k; i++)
+    {
+        if (i<7)
+        {
+            j2->setFicha(lFichas->del_headS());
+            
+        }else
+            break; 
+    }
+    cout<<lFichas->size()<<"\n";
+    Reporte rx = Reporte();
+    rx.ReporteFichasUsuario(j2->getFicha(), j2->getName());
+    int g = lFichas->size();
+    for (int i = 0; i < g; i++)
+    {
+        //cout<<lFichas->getData()->getLetra()<<"\n";
+    }
+    Reporte rColaF = Reporte();
+    rColaF.ReporteFichasCola(lFichas);
     
-    
-
-    //Reporte *repor = new Reporte();
-    //repor->ReporteFichas(lFichas);
-
-    //Ventana *ventan = new Ventana(diccionario, jugadores);
-    //ventan->menuGame();
-    //jugadores->report();
-
-    //f->readJson(f->ReadFile("configG.json"));
-    //cout << diccionario->getDataC() << "\n";
-    //conf->setDimension(3);
-    //cout << "Dimension: " << conf->getDimesion() << "\n";
-    //conf->setCasillaE(0,0,2);
-    //conf->setCasillaE(3,5,3);
-    //Lista<CasillaE *> *temp = conf->getCasillaE();
-    //for (int i = 0; i < temp->size(); i++)
-    //{
-    //    CasillaE *tmp = temp->getDataC();
-    //    cout << "Casillas Especiales\t X : " << tmp->getX() << "\tY : " << tmp->getY() << "\tPuntaje: " << tmp->getPuntaje() << "\n";
-    //}
 }
 
 //carga el archivo de configuracion antes empezar
@@ -123,4 +136,5 @@ void Init::generarFichas()
     lFichas->add_endS(new Ficha(10, 1, "Z"));
 }
 
+//destructor
 Init::~Init() {}
