@@ -32,6 +32,7 @@ void Reporte::ReporteFichasCola(Lista<Ficha *> *listaFicha)
     graph->addln(node);
     graph->addln(graph->end());
     graph->dotGraphGenerator("ColaFichas", graph->getDotSource());
+    graph->setDotSource();
 }
 
 //reporte de fichas de usuario en el juego
@@ -63,7 +64,8 @@ void Reporte::ReporteFichasUsuario(ListaDoble<Ficha *> *lisfichasUsuario, string
     graph->addln(enlaces);
     graph->addln(enlacesIverso);
     graph->addln(graph->end());
-    graph->dotGraphGenerator("ListaDobleFichasUsuario"+to_string(iterador), graph->getDotSource());
+    graph->dotGraphGenerator("ListaDobleFichasUsuario"+nombre, graph->getDotSource());
+    graph->setDotSource();
     delete graph;
 }
 

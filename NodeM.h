@@ -22,6 +22,7 @@ public:
     void setRight(NodeM *);
     void setUp(NodeM *);
     void setDown(NodeM *);
+    void setData(string);
     NodeM *getLeft();
     NodeM *getRight();
     NodeM *getUp();

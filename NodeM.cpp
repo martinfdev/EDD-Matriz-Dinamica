@@ -38,6 +38,11 @@ void NodeM::setDown(NodeM *down)
     this->down = down;
 }
 
+void NodeM::setData(string data_)
+{
+    data = data_;
+}
+
 string NodeM::getData()
 {
     return this->data;

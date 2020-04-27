@@ -22,6 +22,7 @@ public:
     void addln(string);
     void add(string);
     bool dotGraphGenerator(string, string);
+    void setDotSource();
     ~Graphviz();
 };
 #endif //GRAPHVIZ.H

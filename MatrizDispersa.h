@@ -36,7 +36,8 @@ public:
     void showX();
     void showMatrix();
     void report();
-    NodeM *search(int);
+    string searchM(int, int);
+    void setData(int, int, string);
     ~MatrizDispersa();
 };
 #endif

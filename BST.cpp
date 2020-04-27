@@ -161,8 +161,7 @@ Jugador *BST::search(string data)
 void BST::preorder()
 {   lista = new Lista<string>();
     preorderRec(root);
-    lista->graphStringS("PreOrden");
-    
+    lista->graphStringS("PreOrden"); 
 }
 
 //metodo publico para recorrido inorder

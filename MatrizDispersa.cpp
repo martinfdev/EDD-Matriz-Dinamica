@@ -281,11 +281,10 @@ void MatrizDispersa::insertNode(NodeM *x, NodeM *y, NodeM *data)
                 Xposition->getDown()->setUp(data);
                 Xposition->setDown(data);
             }
-            
         }
         else
         {
-           // cout << "posicion x y ocupada\n";
+            // cout << "posicion x y ocupada\n";
         }
     }
 }
@@ -491,6 +490,7 @@ void MatrizDispersa::report()
     }
     graph->addln(graph->end());
     graph->dotGraphGenerator("matriz", graph->getDotSource());
+    graph->setDotSource();
 }
 
 //revuelvel el rank dir para reporte
@@ -531,6 +531,53 @@ bool MatrizDispersa::posxyBusy(NodeM *n, int x, int y)
     return false;
 }
 
+//busqueda en la matriz devuelve el dato almacenado dados las posiciones
+string MatrizDispersa::searchM(int x, int y)
+{
+    NodeM *tempY = root->getDown();
+    NodeM *tempX;
+    if (!isEmpty())
+    {
+        while (tempY != NULL)
+        {
+            tempX = tempY->getRight();
+            while (tempX != NULL)
+            {
+                if (tempX->getX() == x && tempY->getY() == y)
+                {
+                    return tempX->getData();
+                }
+
+                tempX = tempX->getRight();
+            }
+            tempY = tempY->getDown();
+        }
+    }
+}
+
+//cambia el valor del dato dentro de la matriz en la posicin indicada
+void MatrizDispersa::setData(int x, int y, string data_)
+{
+    NodeM *tempY = root->getDown();
+    NodeM *tempX;
+    if (!isEmpty())
+    {
+        while (tempY != NULL)
+        {
+            tempX = tempY->getRight();
+            while (tempX != NULL)
+            {
+                if (tempX->getX() == x && tempY->getY() == y)
+                {
+                    tempX->setData(data_);
+                }
+                
+                tempX = tempX->getRight();
+            }
+            tempY = tempY->getDown();
+        }
+    }
+}
 //destructor
 MatrizDispersa::~MatrizDispersa()
 {

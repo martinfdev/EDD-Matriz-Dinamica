@@ -37,6 +37,8 @@
 #include "Reporte.cpp"
 #include <stdlib.h>
 #include <time.h>
+#include "Play.h"
+#include "Play.cpp"
 
 
 Init::Init()
@@ -49,44 +51,49 @@ Init::Init()
     generarFichas();
     f = new File(diccionario, conf);
     path_config_json();
-    //Ventana win = Ventana(diccionario, jugadores, conf, lFichas, matriz);
-    //win.menuGame();
-    Jugador *j1 = new Jugador("Juan");
-    Jugador *j2 = new Jugador("Pedro");
-    int x = lFichas->size();
-    for (int  i = 0; i < x; i++)
-    {
-        if (i<7)
-        {
-            j1->setFicha(lFichas->del_headS());
-        }else
-            break;
-    }
-    cout<<lFichas->size()<<"\n";
-    cout<<j1->getFicha()->getSize()<<"\n";
-  
-    int k = lFichas->size();
-    cout<<k<<"\n";
-    for (int i = 0; i < k; i++)
-    {
-        if (i<7)
-        {
-            j2->setFicha(lFichas->del_headS());
-            
-        }else
-            break; 
-    }
-    cout<<lFichas->size()<<"\n";
-    Reporte rx = Reporte();
-    rx.ReporteFichasUsuario(j2->getFicha(), j2->getName());
-    int g = lFichas->size();
-    for (int i = 0; i < g; i++)
-    {
-        //cout<<lFichas->getData()->getLetra()<<"\n";
-    }
-    Reporte rColaF = Reporte();
-    rColaF.ReporteFichasCola(lFichas);
+    Ventana win = Ventana(diccionario, jugadores, conf, lFichas, matriz);
+    win.menuGame();
+    //Play *play = new Play(conf, matriz, diccionario);
+   //  play->play_game();
+    //matriz->report();
     
+    
+    
+    //Jugador j1 = Jugador("Juan");
+    //Jugador j2 = Jugador("Pedro");
+    //int x = lFichas->size();
+    //for (int  i = 0; i < x; i++)
+    //{
+    //    if (i<7)
+    //    {
+    //        Ficha *tmp =lFichas->del_headS();
+    //        //cout<<tmp->getLetra()<<"\n";
+    //        j1.setFicha(tmp);
+//
+    //    }else
+    //        break;
+    //}
+    //int k = lFichas->size();
+    //
+    //for (int i = 0; i < k; i++)
+    //{
+    //    if (i<7)
+    //    {
+    //        Ficha *tmp =lFichas->del_headS();
+    //        //cout<<tmp->getLetra()<<"\n";
+    //        j2.setFicha(tmp);
+    //        
+    //    }else
+    //        break; 
+    //}
+//
+    //ListaDoble<Ficha* > tm = *j1.getFicha();
+    //for (int i = 0; i < tm.getSize(); i++)
+    //{
+    //    Ficha *tmp = tm.getDataNext();
+    //    cout<<tmp->getLetra()<<"\n";
+    //}
+    //
 }
 
 //carga el archivo de configuracion antes empezar

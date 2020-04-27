@@ -133,7 +133,7 @@ template <typename T>
 void ListaDoble<T>::insertarUltimoC(T data)
 {
     insertarC(primero, data, false);
-    size++;
+    
 }
 
 //metodo privado que espera como parameto un nodo n para eliminarlo de la lista
@@ -177,7 +177,7 @@ T ListaDoble<T>::borrarNodo(Node<T> *n)
         ultimo->setNext(NULL);
         size--;
         delete tempN;
-        return tempData();
+        return tempData;
     }
     else
     {
@@ -339,6 +339,7 @@ void ListaDoble<T>::reportIntC(string nameDot)
     graph->addln(enlacesIverso);
     graph->addln(graph->end());
     graph->dotGraphGenerator(nameDot, graph->getDotSource());
+    graph->setDotSource();
 }
 
 //metodo que genera grafica de lista doble circular de string
@@ -378,6 +379,7 @@ void ListaDoble<T>::reportStringC(string nameDot)
     graph->addln(enlacesIverso);
     graph->addln(graph->end());
     graph->dotGraphGenerator(nameDot, graph->getDotSource());
+    graph->setDotSource();
 }
 
 //metodo para graficar lista doble enlazada simple de int, double, o float
@@ -415,6 +417,7 @@ void ListaDoble<T>::reportIntS(string nameDot)
     graph->addln(enlacesIverso);
     graph->addln(graph->end());
     graph->dotGraphGenerator("LitaDoble", graph->getDotSource());
+    graph->setDotSource();
 }
 
 //metodo para grafica lista doble enlazada simple de strings
@@ -452,6 +455,7 @@ void ListaDoble<T>::reportStringS(string nameDot)
     graph->addln(enlacesIverso);
     graph->addln(graph->end());
     graph->dotGraphGenerator(nameDot, graph->getDotSource());
+    graph->setDotSource();
 }
 
 //devuelve el dato almacenado nodo por nodo con recorrido hacia adelante para una lista no circular

@@ -16,7 +16,7 @@ private:
     Lista<int> score;
     string name;
     ListaDoble<Ficha *> *lfichas;
-
+    bool estado;
 public:
     Jugador();
     Jugador(string);
@@ -25,8 +25,10 @@ public:
     Lista<int> getScore();
     void setScore(int);
     int getScoreMax();
-    void setFicha(Ficha *);
+    void setFicha(ListaDoble<Ficha*>*);
     ListaDoble<Ficha *> *getFicha();
+    void setEstado(bool);
+    bool getEstado();
     ~Jugador();
 };
 #endif //JUGADOR_H
