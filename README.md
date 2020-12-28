@@ -1,3 +1,7 @@
-# EDD_1S2020_PY1_201700656
+# EDD Matriz Dinamica
 >proyecto 1 estructura de datos
->juego de sacrbe en consolo usando 
+![Arbol](build/Arbol.png)
+>juego de sacrable en consola
+![Fichas](build/ColaFichas.png)
+![Diccionario](build/Rdiccionario.png)
+![Matriz](build/matriz.png)
